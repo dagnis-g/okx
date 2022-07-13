@@ -1,9 +1,10 @@
 package com.example.tradingapp.trading;
 
-import java.net.http.HttpRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.http.client.methods.HttpRequestBase;
 
 public interface OrderRequestEncoder {
 
-    HttpRequest encode(OrderRequest orderRequest);
+    HttpRequestBase encode(OrderRequest orderRequest) throws JsonProcessingException;
 
 }

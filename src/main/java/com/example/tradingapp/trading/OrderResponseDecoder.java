@@ -1,9 +1,9 @@
 package com.example.tradingapp.trading;
 
-import java.net.http.HttpResponse;
+import org.apache.http.client.methods.CloseableHttpResponse;
 
 public interface OrderResponseDecoder {
 
-    OrderResponseStatus decode(HttpResponse httpResponse);
+    OrderResponseStatus decode(CloseableHttpResponse httpResponse);
 
 }

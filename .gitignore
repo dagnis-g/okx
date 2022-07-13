@@ -13,6 +13,9 @@ target/
 .springBeans
 .sts4-cache
 
+### API-Secrets ###
+src/main/java/com/example/tradingapp/secrets/Secrets.java
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
