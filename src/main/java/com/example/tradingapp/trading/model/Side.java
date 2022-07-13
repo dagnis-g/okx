@@ -1,9 +1,12 @@
 package com.example.tradingapp.trading.model;
 
-public enum Side {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    buy,
-    sell
+public enum Side {
+    @JsonProperty("buy")
+    BUY,
+    @JsonProperty("sell")
+    SELL
 
 }
 

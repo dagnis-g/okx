@@ -1,6 +1,10 @@
 package com.example.tradingapp.trading.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum OrderType {
-    market,
-    limit
+    @JsonProperty("market")
+    MARKET,
+    @JsonProperty("limit")
+    LIMIT
 }

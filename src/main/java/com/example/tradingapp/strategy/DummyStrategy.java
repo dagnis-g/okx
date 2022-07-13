@@ -17,12 +17,12 @@ public class DummyStrategy {
 
     private final NewOrderPolicy newOrderPolicy;
     private final Random random = new Random();
-    
+
     public void execute() throws IOException {
         var orderRequest = OrderRequest.builder()
                 .symbol("BTC-USDT")
-                .side(random.nextBoolean() ? Side.buy : Side.sell)
-                .type(OrderType.limit)
+                .side(random.nextBoolean() ? Side.BUY : Side.SELL)
+                .type(OrderType.LIMIT)
                 .price(20)
                 .quantity(1)
                 .build();
