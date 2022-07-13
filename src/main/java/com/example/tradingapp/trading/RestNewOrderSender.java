@@ -25,8 +25,8 @@ public class RestNewOrderSender implements NewOrderSender {
         // prepare request based on orderRequest
         HttpRequestBase httpRequest = orderRequestEncoder.encode(orderRequest);
         // send
-        CloseableHttpClient httpClient = HttpClients.createDefault();
         // receive response
+        CloseableHttpClient httpClient = HttpClients.createDefault();
         CloseableHttpResponse response = httpClient.execute(httpRequest);
         // decode with OrderResponseDecoder
         OrderResponseStatus status = orderResponseDecoder.decode(response);
