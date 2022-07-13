@@ -1,6 +1,6 @@
 package com.example.tradingapp.trading;
 
-import com.example.tradingapp.trading.model.OkxOrderRequest;
+import com.example.tradingapp.trading.model.OrderRequest;
 import com.example.tradingapp.trading.model.OrderResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,18 +21,17 @@ public class RestNewOrderSender implements NewOrderSender {
     private final OrderResponseDecoder orderResponseDecoder;
 
     @Override
-    public OrderResponseStatus send(OkxOrderRequest orderRequest) throws IOException {
+    public OrderResponseStatus send(OrderRequest orderRequest) throws IOException {
         // prepare request based on orderRequest
         HttpRequestBase httpRequest = orderRequestEncoder.encode(orderRequest);
         // send
         CloseableHttpClient httpClient = HttpClients.createDefault();
         // receive response
         CloseableHttpResponse response = httpClient.execute(httpRequest);
-//        log.warn(response.toString());
         // decode with OrderResponseDecoder
-        orderResponseDecoder.decode(response);
+        OrderResponseStatus status = orderResponseDecoder.decode(response);
+        log.info("ResponseStatus: {}", status);
         // return OrderResponseStatus with success=true or success=false depending on status code
-
-        return OrderResponseStatus.builder().build(); // todo replace
+        return status; // todo replace
     }
 }

@@ -1,24 +1,28 @@
 package com.example.tradingapp.trading.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class OkxOrderRequest {
-
+    
     @JsonProperty("instId")
-    private String instrumentId;
+    private String symbol;
     @JsonProperty("tdMode")
     private String tradeMode;
-    private String side;
+    private Side side;
     @JsonProperty("ordType")
-    private String orderType;
+    private OrderType type;
     @JsonProperty("px")
-    private BigDecimal orderPrice;
+    private BigDecimal price;
     @JsonProperty("sz")
     private BigDecimal quantity;
 
