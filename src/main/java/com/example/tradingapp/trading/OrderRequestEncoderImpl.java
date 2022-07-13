@@ -1,14 +1,17 @@
 package com.example.tradingapp.trading;
 
 import com.example.tradingapp.secrets.Secrets;
+import com.example.tradingapp.trading.model.OkxOrderRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.digest.HmacAlgorithms;
 import org.apache.commons.codec.digest.HmacUtils;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.entity.StringEntity;
 import org.springframework.stereotype.Component;
 
+import java.io.UnsupportedEncodingException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Base64;
@@ -25,14 +28,16 @@ public class OrderRequestEncoderImpl implements OrderRequestEncoder {
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public HttpRequestBase encode(OrderRequest orderRequest) throws JsonProcessingException {
+    public HttpRequestBase encode(OkxOrderRequest orderRequest) throws JsonProcessingException, UnsupportedEncodingException {
         String orderJson = mapper.writeValueAsString(orderRequest);
 
-        String hmacUri = timestamp + "GET" + PATH + orderJson;
+        String hmacUri = timestamp + "POST" + PATH + orderJson;
         byte[] hmac = new HmacUtils(HmacAlgorithms.HMAC_SHA_256, SECRET_KEY).hmac(hmacUri);
         var okAccessSign = Base64.getEncoder().encodeToString(hmac);
 
         HttpPost request = new HttpPost("https://www.okx.com" + PATH);
+        StringEntity stringEntity = new StringEntity(orderJson);
+        request.setEntity(stringEntity);
         request.addHeader("accept", "application/json");
         request.addHeader("Content-type", "application/json");
         request.addHeader("OK-ACCESS-KEY", API_KEY);

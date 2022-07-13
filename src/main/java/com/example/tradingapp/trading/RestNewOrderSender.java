@@ -1,6 +1,9 @@
 package com.example.tradingapp.trading;
 
+import com.example.tradingapp.trading.model.OkxOrderRequest;
+import com.example.tradingapp.trading.model.OrderResponseStatus;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class RestNewOrderSender implements NewOrderSender {
@@ -17,15 +21,16 @@ public class RestNewOrderSender implements NewOrderSender {
     private final OrderResponseDecoder orderResponseDecoder;
 
     @Override
-    public OrderResponseStatus send(OrderRequest orderRequest) throws IOException {
+    public OrderResponseStatus send(OkxOrderRequest orderRequest) throws IOException {
         // prepare request based on orderRequest
         HttpRequestBase httpRequest = orderRequestEncoder.encode(orderRequest);
         // send
         CloseableHttpClient httpClient = HttpClients.createDefault();
         // receive response
         CloseableHttpResponse response = httpClient.execute(httpRequest);
+//        log.warn(response.toString());
         // decode with OrderResponseDecoder
-
+        orderResponseDecoder.decode(response);
         // return OrderResponseStatus with success=true or success=false depending on status code
 
         return OrderResponseStatus.builder().build(); // todo replace

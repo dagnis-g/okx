@@ -1,7 +1,7 @@
 package com.example.tradingapp.tracker;
 
-import com.example.tradingapp.trading.OrderType;
-import com.example.tradingapp.trading.Side;
+import com.example.tradingapp.trading.model.OrderType;
+import com.example.tradingapp.trading.model.Side;
 
 public class Order {
 
