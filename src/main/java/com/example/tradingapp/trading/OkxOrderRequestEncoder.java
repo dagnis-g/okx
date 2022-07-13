@@ -38,7 +38,7 @@ public class OkxOrderRequestEncoder implements OrderRequestEncoder {
         okxOrderRequest.setTradeMode("cash");
         String orderJson = mapper.writeValueAsString(okxOrderRequest);
         log.info("OkxOrderRequest {}", orderJson);
-        
+
         String hmacUri = timestamp + "POST" + PATH + orderJson;
         String okAccessSign = encodeAccessSign(hmacUri);
 
@@ -56,7 +56,7 @@ public class OkxOrderRequestEncoder implements OrderRequestEncoder {
         return request;
     }
 
-    private String encodeAccessSign(String hmacUri) {
+    public String encodeAccessSign(String hmacUri) {
         byte[] hmac = new HmacUtils(HmacAlgorithms.HMAC_SHA_256, SECRET_KEY).hmac(hmacUri);
         return Base64.getEncoder().encodeToString(hmac);
     }
