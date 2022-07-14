@@ -22,7 +22,6 @@ public class NewOrderPolicy {
     public void sendNewOrder(OrderRequest orderRequest) throws IOException {
         var orderResponseStatus = newOrderSender.send(orderRequest);
         if (orderResponseStatus.isSuccess()) {
-            // todo: Add to order tracker
             var order = Order.builder()
                     .status(OrderStatus.New)
                     .symbol(orderRequest.getSymbol())
@@ -33,7 +32,6 @@ public class NewOrderPolicy {
                     .build();
             orderTracker.create(order);
         } else {
-            // todo: log.error
             log.error("Order not placed {}", orderResponseStatus.getErrorMessage());
         }
     }

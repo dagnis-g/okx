@@ -56,7 +56,7 @@ public class OkxOrderRequestEncoder implements OrderRequestEncoder {
         return request;
     }
 
-    public String encodeAccessSign(String hmacUri) {
+    private String encodeAccessSign(String hmacUri) {
         byte[] hmac = new HmacUtils(HmacAlgorithms.HMAC_SHA_256, SECRET_KEY).hmac(hmacUri);
         return Base64.getEncoder().encodeToString(hmac);
     }

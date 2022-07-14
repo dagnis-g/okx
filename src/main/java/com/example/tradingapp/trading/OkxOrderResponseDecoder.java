@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class OkxOrderRequestDecoder implements OrderResponseDecoder {
+public class OkxOrderResponseDecoder implements OrderResponseDecoder {
 
     ObjectMapper mapper = new ObjectMapper();
 
