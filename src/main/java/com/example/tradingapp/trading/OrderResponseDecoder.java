@@ -1,12 +1,12 @@
 package com.example.tradingapp.trading;
 
 import com.example.tradingapp.trading.model.OrderResponseStatus;
-import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.HttpResponse;
 
 import java.io.IOException;
 
 public interface OrderResponseDecoder {
 
-    OrderResponseStatus decode(CloseableHttpResponse httpResponse) throws IOException;
+    OrderResponseStatus decode(HttpResponse httpResponse) throws IOException;
 
 }
