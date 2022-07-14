@@ -16,6 +16,9 @@ target/
 ### API-Secrets ###
 src/main/java/com/example/tradingapp/secrets/Secrets.java
 
+### Logs ###
+logs/trading.log
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
