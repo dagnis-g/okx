@@ -1,6 +1,7 @@
 package com.example.tradingapp;
 
 import com.example.tradingapp.secrets.Secrets;
+import com.example.tradingapp.trading.OkxOrderRequestDecoder;
 import com.example.tradingapp.trading.OkxOrderRequestEncoder;
 import com.example.tradingapp.trading.model.OrderRequest;
 import com.example.tradingapp.trading.model.OrderType;
@@ -21,6 +22,8 @@ public class TradingAppApplicationTests {
 
     @Autowired
     OkxOrderRequestEncoder encoder;
+    @Autowired
+    OkxOrderRequestDecoder decoder;
 
     @Test
     void shouldAddHeaders() throws IOException {

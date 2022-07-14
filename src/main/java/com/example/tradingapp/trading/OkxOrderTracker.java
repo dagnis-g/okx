@@ -1,11 +1,14 @@
 package com.example.tradingapp.trading;
 
 import com.example.tradingapp.tracker.Order;
+import org.springframework.stereotype.Component;
 
-public class OrderTrackerImpl implements OrderTracker {
+@Component
+public class OkxOrderTracker implements OrderTracker {
+
     @Override
     public void create(Order order) {
-
+        
     }
 
     @Override

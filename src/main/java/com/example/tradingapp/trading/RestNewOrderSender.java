@@ -32,6 +32,6 @@ public class RestNewOrderSender implements NewOrderSender {
         OrderResponseStatus status = orderResponseDecoder.decode(response);
         log.info("ResponseStatus: {}", status);
         // return OrderResponseStatus with success=true or success=false depending on status code
-        return status; // todo replace
+        return status;
     }
 }

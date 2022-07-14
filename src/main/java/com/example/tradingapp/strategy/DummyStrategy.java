@@ -23,8 +23,8 @@ public class DummyStrategy {
                 .symbol("BTC-USDT")
                 .side(random.nextBoolean() ? Side.BUY : Side.SELL)
                 .type(OrderType.LIMIT)
-                .price(20)
-                .quantity(1)
+                .price(1)
+                .quantity(0.0001)
                 .build();
 
         log.info("Sending new order: {}", orderRequest);
