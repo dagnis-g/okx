@@ -5,8 +5,8 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class OkxResponse {
+public class OkxOrderResponse {
     private Integer code;
-    private List<OkxResponseData> data;
+    private List<OkxOrderResponseData> data;
     private String msg;
 }

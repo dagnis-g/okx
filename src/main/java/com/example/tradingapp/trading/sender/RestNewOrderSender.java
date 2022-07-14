@@ -1,5 +1,7 @@
-package com.example.tradingapp.trading;
+package com.example.tradingapp.trading.sender;
 
+import com.example.tradingapp.trading.decoder.OkxOrderResponseDecoder;
+import com.example.tradingapp.trading.encoder.OkxOrderRequestEncoder;
 import com.example.tradingapp.trading.model.OrderRequest;
 import com.example.tradingapp.trading.model.OrderResponseStatus;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +19,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class RestNewOrderSender implements NewOrderSender {
 
-    private final OrderRequestEncoder orderRequestEncoder;
-    private final OrderResponseDecoder orderResponseDecoder;
+    private final OkxOrderRequestEncoder orderRequestEncoder;
+    private final OkxOrderResponseDecoder orderResponseDecoder;
 
     @Override
     public OrderResponseStatus send(OrderRequest orderRequest) throws IOException {

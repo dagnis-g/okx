@@ -1,8 +1,8 @@
 package com.example.tradingapp;
 
 import com.example.tradingapp.secrets.Secrets;
-import com.example.tradingapp.trading.OkxOrderRequestEncoder;
-import com.example.tradingapp.trading.OkxOrderResponseDecoder;
+import com.example.tradingapp.trading.decoder.OkxOrderResponseDecoder;
+import com.example.tradingapp.trading.encoder.OkxOrderRequestEncoder;
 import com.example.tradingapp.trading.model.OrderRequest;
 import com.example.tradingapp.trading.model.OrderType;
 import com.example.tradingapp.trading.model.Side;

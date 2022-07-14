@@ -1,6 +1,6 @@
-package com.example.tradingapp.trading;
+package com.example.tradingapp.trading.decoder;
 
-import com.example.tradingapp.trading.model.OkxResponse;
+import com.example.tradingapp.trading.model.OkxOrderResponse;
 import com.example.tradingapp.trading.model.OrderResponseStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +20,9 @@ public class OkxOrderResponseDecoder implements OrderResponseDecoder {
     @Override
     public OrderResponseStatus decode(HttpResponse httpResponse) throws IOException {
         HttpEntity entity = httpResponse.getEntity();
-        String result = EntityUtils.toString(entity);
-        OkxResponse response = mapper.readValue(result, OkxResponse.class);
-        log.info("OkxResponse entity {}", response);
+        String entityString = EntityUtils.toString(entity);
+        OkxOrderResponse response = mapper.readValue(entityString, OkxOrderResponse.class);
+        log.info("OkxOrderResponse entity {}", response);
 
         return OrderResponseStatus.builder()
                 .success(response.getCode() == 0)

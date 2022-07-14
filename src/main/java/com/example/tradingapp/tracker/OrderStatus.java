@@ -1,5 +1,6 @@
 package com.example.tradingapp.tracker;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum OrderStatus {
 
     New(false),
+    @JsonProperty("live")
     Live(false),
     Failed(true),
     Canceled(true),

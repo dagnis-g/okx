@@ -1,4 +1,4 @@
-package com.example.tradingapp.trading;
+package com.example.tradingapp.trading.decoder;
 
 import com.example.tradingapp.trading.model.OrderResponseStatus;
 import org.apache.http.HttpResponse;

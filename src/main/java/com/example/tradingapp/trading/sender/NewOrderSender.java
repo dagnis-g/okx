@@ -1,4 +1,4 @@
-package com.example.tradingapp.trading;
+package com.example.tradingapp.trading.sender;
 
 import com.example.tradingapp.trading.model.OrderRequest;
 import com.example.tradingapp.trading.model.OrderResponseStatus;
