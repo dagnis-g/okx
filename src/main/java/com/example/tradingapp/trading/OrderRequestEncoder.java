@@ -1,9 +1,13 @@
 package com.example.tradingapp.trading;
 
-import java.net.http.HttpRequest;
+import com.example.tradingapp.trading.model.OrderRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.http.client.methods.HttpRequestBase;
+
+import java.io.UnsupportedEncodingException;
 
 public interface OrderRequestEncoder {
 
-    HttpRequest encode(OrderRequest orderRequest);
+    HttpRequestBase encode(OrderRequest orderRequest) throws JsonProcessingException, UnsupportedEncodingException;
 
 }

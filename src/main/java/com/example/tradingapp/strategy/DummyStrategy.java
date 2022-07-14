@@ -1,15 +1,14 @@
 package com.example.tradingapp.strategy;
 
-import com.example.tradingapp.trading.OrderRequest;
-import com.example.tradingapp.trading.OrderType;
+import com.example.tradingapp.trading.model.OrderRequest;
+import com.example.tradingapp.trading.model.OrderType;
+import com.example.tradingapp.trading.model.Side;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.Random;
-
-import static com.example.tradingapp.trading.Side.Buy;
-import static com.example.tradingapp.trading.Side.Sell;
 
 @Component
 @RequiredArgsConstructor
@@ -19,12 +18,13 @@ public class DummyStrategy {
     private final NewOrderPolicy newOrderPolicy;
     private final Random random = new Random();
 
-    public void execute() {
+    public void execute() throws IOException {
         var orderRequest = OrderRequest.builder()
-                .price(20000)
-                .quantity(1)
-                .side(random.nextBoolean() ? Buy : Sell)
+                .symbol("BTC-USDT")
+                .side(random.nextBoolean() ? Side.BUY : Side.SELL)
                 .type(OrderType.LIMIT)
+                .price(1)
+                .quantity(0.0001)
                 .build();
 
         log.info("Sending new order: {}", orderRequest);
