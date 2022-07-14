@@ -9,6 +9,7 @@ import lombok.Data;
 @Builder
 public class Order {
 
+    private String id;
     private OrderStatus status;
 
     private String symbol;

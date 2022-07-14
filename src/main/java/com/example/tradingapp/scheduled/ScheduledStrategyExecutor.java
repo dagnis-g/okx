@@ -15,7 +15,7 @@ public class ScheduledStrategyExecutor {
 
     private final DummyStrategy dummyStrategy;
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 5000, initialDelay = 1500)
     public void executeStrategy() throws IOException {
         log.info("Executing");
         dummyStrategy.execute();

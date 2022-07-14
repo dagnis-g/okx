@@ -1,4 +1,4 @@
-package com.example.tradingapp.trading;
+package com.example.tradingapp.trading.encoder;
 
 import com.example.tradingapp.trading.model.OrderRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;

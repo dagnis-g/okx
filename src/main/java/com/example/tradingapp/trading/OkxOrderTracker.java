@@ -4,19 +4,19 @@ import com.example.tradingapp.tracker.Order;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Component
 public class OkxOrderTracker implements OrderTracker {
 
-    List<Order> newOrders = new ArrayList<>();
+    Map<String, Order> newOrders = new HashMap<>();
 
     @Override
     public void create(Order order) {
         log.info("Created New Order: {}", order);
-        newOrders.add(order);
+        newOrders.put(order.getId(), order);
     }
 
     @Override

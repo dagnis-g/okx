@@ -1,5 +1,6 @@
 package com.example.tradingapp.trading;
 
+import com.example.tradingapp.trading.decoder.OkxOrderResponseDecoder;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpResponseFactory;
 import org.apache.http.HttpStatus;

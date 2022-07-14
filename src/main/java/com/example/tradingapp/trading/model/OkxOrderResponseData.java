@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class OkxResponseData {
+public class OkxOrderResponseData {
     @JsonProperty("clOrdId")
     private String clientSuppliedOrderId;
     @JsonProperty("ordId")
