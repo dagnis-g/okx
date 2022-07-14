@@ -59,86 +59,86 @@ public class OkxOrderListResponseDecoderTest {
 
     }
 
-    private String json = "{\n" +
-            "\t\"code\": \"0\",\n" +
-            "\t\"data\": [\n" +
-            "\t\t{\n" +
-            "\t\t\t\"accFillSz\": \"0\",\n" +
-            "\t\t\t\"avgPx\": \"\",\n" +
-            "\t\t\t\"cTime\": \"1657790039676\",\n" +
-            "\t\t\t\"category\": \"normal\",\n" +
-            "\t\t\t\"ccy\": \"\",\n" +
-            "\t\t\t\"clOrdId\": \"\",\n" +
-            "\t\t\t\"fee\": \"0\",\n" +
-            "\t\t\t\"feeCcy\": \"BTC\",\n" +
-            "\t\t\t\"fillPx\": \"\",\n" +
-            "\t\t\t\"fillSz\": \"0\",\n" +
-            "\t\t\t\"fillTime\": \"\",\n" +
-            "\t\t\t\"instId\": \"BTC-USDT\",\n" +
-            "\t\t\t\"instType\": \"SPOT\",\n" +
-            "\t\t\t\"lever\": \"\",\n" +
-            "\t\t\t\"ordId\": \"467740559887708160\",\n" +
-            "\t\t\t\"ordType\": \"limit\",\n" +
-            "\t\t\t\"pnl\": \"0\",\n" +
-            "\t\t\t\"posSide\": \"net\",\n" +
-            "\t\t\t\"px\": \"1\",\n" +
-            "\t\t\t\"rebate\": \"0\",\n" +
-            "\t\t\t\"rebateCcy\": \"USDT\",\n" +
-            "\t\t\t\"side\": \"buy\",\n" +
-            "\t\t\t\"slOrdPx\": \"\",\n" +
-            "\t\t\t\"slTriggerPx\": \"\",\n" +
-            "\t\t\t\"slTriggerPxType\": \"\",\n" +
-            "\t\t\t\"source\": \"\",\n" +
-            "\t\t\t\"state\": \"live\",\n" +
-            "\t\t\t\"sz\": \"0.0001\",\n" +
-            "\t\t\t\"tag\": \"\",\n" +
-            "\t\t\t\"tdMode\": \"cash\",\n" +
-            "\t\t\t\"tgtCcy\": \"\",\n" +
-            "\t\t\t\"tpOrdPx\": \"\",\n" +
-            "\t\t\t\"tpTriggerPx\": \"\",\n" +
-            "\t\t\t\"tpTriggerPxType\": \"\",\n" +
-            "\t\t\t\"tradeId\": \"\",\n" +
-            "\t\t\t\"uTime\": \"1657790039676\"\n" +
-            "\t\t},\n" +
-            "\t\t{\n" +
-            "\t\t\t\"accFillSz\": \"0\",\n" +
-            "\t\t\t\"avgPx\": \"\",\n" +
-            "\t\t\t\"cTime\": \"1657790034985\",\n" +
-            "\t\t\t\"category\": \"normal\",\n" +
-            "\t\t\t\"ccy\": \"\",\n" +
-            "\t\t\t\"clOrdId\": \"\",\n" +
-            "\t\t\t\"fee\": \"0\",\n" +
-            "\t\t\t\"feeCcy\": \"BTC\",\n" +
-            "\t\t\t\"fillPx\": \"\",\n" +
-            "\t\t\t\"fillSz\": \"0\",\n" +
-            "\t\t\t\"fillTime\": \"\",\n" +
-            "\t\t\t\"instId\": \"BTC-USDT\",\n" +
-            "\t\t\t\"instType\": \"SPOT\",\n" +
-            "\t\t\t\"lever\": \"\",\n" +
-            "\t\t\t\"ordId\": \"467740540212228096\",\n" +
-            "\t\t\t\"ordType\": \"limit\",\n" +
-            "\t\t\t\"pnl\": \"0\",\n" +
-            "\t\t\t\"posSide\": \"net\",\n" +
-            "\t\t\t\"px\": \"1\",\n" +
-            "\t\t\t\"rebate\": \"0\",\n" +
-            "\t\t\t\"rebateCcy\": \"USDT\",\n" +
-            "\t\t\t\"side\": \"buy\",\n" +
-            "\t\t\t\"slOrdPx\": \"\",\n" +
-            "\t\t\t\"slTriggerPx\": \"\",\n" +
-            "\t\t\t\"slTriggerPxType\": \"\",\n" +
-            "\t\t\t\"source\": \"\",\n" +
-            "\t\t\t\"state\": \"live\",\n" +
-            "\t\t\t\"sz\": \"0.0001\",\n" +
-            "\t\t\t\"tag\": \"\",\n" +
-            "\t\t\t\"tdMode\": \"cash\",\n" +
-            "\t\t\t\"tgtCcy\": \"\",\n" +
-            "\t\t\t\"tpOrdPx\": \"\",\n" +
-            "\t\t\t\"tpTriggerPx\": \"\",\n" +
-            "\t\t\t\"tpTriggerPxType\": \"\",\n" +
-            "\t\t\t\"tradeId\": \"\",\n" +
-            "\t\t\t\"uTime\": \"1657790034985\"\n" +
-            "\t\t}\n" +
-            "\t],\n" +
-            "\t\"msg\": \"\"\n" +
+    private String json = "{" +
+            "\"code\": \"0\"," +
+            "\"data\": [" +
+            "{" +
+            "\"accFillSz\": \"0\"," +
+            "\"avgPx\": \"\"," +
+            "\"cTime\": \"1657790039676\"," +
+            "\"category\": \"normal\"," +
+            "\"ccy\": \"\"," +
+            "\"clOrdId\": \"\"," +
+            "\"fee\": \"0\"," +
+            "\"feeCcy\": \"BTC\"," +
+            "\"fillPx\": \"\"," +
+            "\"fillSz\": \"0\"," +
+            "\"fillTime\": \"\"," +
+            "\"instId\": \"BTC-USDT\"," +
+            "\"instType\": \"SPOT\"," +
+            "\"lever\": \"\"," +
+            "\"ordId\": \"467740559887708160\"," +
+            "\"ordType\": \"limit\"," +
+            "\"pnl\": \"0\"," +
+            "\"posSide\": \"net\"," +
+            "\"px\": \"1\"," +
+            "\"rebate\": \"0\"," +
+            "\"rebateCcy\": \"USDT\"," +
+            "\"side\": \"buy\"," +
+            "\"slOrdPx\": \"\"," +
+            "\"slTriggerPx\": \"\"," +
+            "\"slTriggerPxType\": \"\"," +
+            "\"source\": \"\"," +
+            "\"state\": \"live\"," +
+            "\"sz\": \"0.0001\"," +
+            "\"tag\": \"\"," +
+            "\"tdMode\": \"cash\"," +
+            "\"tgtCcy\": \"\"," +
+            "\"tpOrdPx\": \"\"," +
+            "\"tpTriggerPx\": \"\"," +
+            "\"tpTriggerPxType\": \"\"," +
+            "\"tradeId\": \"\"," +
+            "\"uTime\": \"1657790039676\"" +
+            "}," +
+            "{" +
+            "\"accFillSz\": \"0\"," +
+            "\"avgPx\": \"\"," +
+            "\"cTime\": \"1657790034985\"," +
+            "\"category\": \"normal\"," +
+            "\"ccy\": \"\"," +
+            "\"clOrdId\": \"\"," +
+            "\"fee\": \"0\"," +
+            "\"feeCcy\": \"BTC\"," +
+            "\"fillPx\": \"\"," +
+            "\"fillSz\": \"0\"," +
+            "\"fillTime\": \"\"," +
+            "\"instId\": \"BTC-USDT\"," +
+            "\"instType\": \"SPOT\"," +
+            "\"lever\": \"\"," +
+            "\"ordId\": \"467740540212228096\"," +
+            "\"ordType\": \"limit\"," +
+            "\"pnl\": \"0\"," +
+            "\"posSide\": \"net\"," +
+            "\"px\": \"1\"," +
+            "\"rebate\": \"0\"," +
+            "\"rebateCcy\": \"USDT\"," +
+            "\"side\": \"buy\"," +
+            "\"slOrdPx\": \"\"," +
+            "\"slTriggerPx\": \"\"," +
+            "\"slTriggerPxType\": \"\"," +
+            "\"source\": \"\"," +
+            "\"state\": \"live\"," +
+            "\"sz\": \"0.0001\"," +
+            "\"tag\": \"\"," +
+            "\"tdMode\": \"cash\"," +
+            "\"tgtCcy\": \"\"," +
+            "\"tpOrdPx\": \"\"," +
+            "\"tpTriggerPx\": \"\"," +
+            "\"tpTriggerPxType\": \"\"," +
+            "\"tradeId\": \"\"," +
+            "\"uTime\": \"1657790034985\"" +
+            "}" +
+            "]," +
+            "\"msg\": \"\"" +
             "}";
 }

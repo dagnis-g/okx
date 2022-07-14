@@ -18,10 +18,11 @@ import java.io.UnsupportedEncodingException;
 public class OkxOrderRequestEncoder implements OrderRequestEncoder {
 
     private final OkxUriAndHeaderEncoder uriAndHeaderEncoder;
+    private final ModelMapper modelMapper;
+    
     private final String PATH = "/api/v5/trade/order";
 
     private final ObjectMapper mapper = new ObjectMapper();
-    private final ModelMapper modelMapper = new ModelMapper();
 
     @Override
     public HttpRequestBase encode(OrderRequest orderRequest) throws JsonProcessingException, UnsupportedEncodingException {
@@ -31,7 +32,7 @@ public class OkxOrderRequestEncoder implements OrderRequestEncoder {
         log.info("OkxOrderRequestEncoder {}", orderJson);
 
         return uriAndHeaderEncoder.encode("Post", PATH, orderJson);
-        
+
     }
 
 }

@@ -20,21 +20,22 @@ public class OkxUriAndHeaderEncoder {
     private final String API_KEY = Secrets.API_KEY;
     private final String SECRET_KEY = Secrets.SECRET_KEY;
     private final String PASSPRHASE = Secrets.PASSPHRASE;
+    private final String URL_PATH = "https://www.okx.com";
 
-    public HttpRequestBase encode(String requestType, String PATH, String orderJson) throws UnsupportedEncodingException {
+    public HttpRequestBase encode(String requestType, String path, String orderJson) throws UnsupportedEncodingException {
         String timestamp = String.valueOf(Instant.now().truncatedTo(ChronoUnit.MILLIS));
-        String hmacUri = timestamp + requestType.toUpperCase() + PATH + orderJson;
+        String hmacUri = timestamp + requestType.toUpperCase() + path + orderJson;
         String okAccessSign = encodeAccessSign(hmacUri);
         StringEntity stringEntity = new StringEntity(orderJson);
 
         if (requestType.equalsIgnoreCase("post")) {
-            HttpPost request = new HttpPost("https://www.okx.com" + PATH);
+            HttpPost request = new HttpPost(URL_PATH + path);
             request.setEntity(stringEntity);
             addHeaders(request, okAccessSign, timestamp);
 
             return request;
         } else if (requestType.equalsIgnoreCase("get")) {
-            HttpGet request = new HttpGet("https://www.okx.com" + PATH);
+            HttpGet request = new HttpGet(URL_PATH + path);
             addHeaders(request, okAccessSign, timestamp);
 
             return request;
