@@ -10,5 +10,5 @@ import java.util.Map;
 @Data
 @Component
 public class Account {
-    Map<String, BigDecimal> balance = new HashMap<>();
+    private final Map<String, BigDecimal> balance = new HashMap<>();
 }

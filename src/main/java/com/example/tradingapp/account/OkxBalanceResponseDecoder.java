@@ -15,12 +15,12 @@ import java.io.IOException;
 @Component
 public class OkxBalanceResponseDecoder {
 
-    ObjectMapper mapper = new ObjectMapper();
-
+    ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    
     public OkxBalanceResponse decode(HttpResponse httpResponse) throws IOException {
+
         HttpEntity entity = httpResponse.getEntity();
         String entityString = EntityUtils.toString(entity);
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return mapper.readValue(entityString, OkxBalanceResponse.class);
     }
 
