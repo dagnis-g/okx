@@ -4,7 +4,7 @@ import com.example.tradingapp.tracker.Order;
 import com.example.tradingapp.trading.OrderTracker;
 import com.example.tradingapp.trading.decoder.OkxOrderListResponseDecoder;
 import com.example.tradingapp.trading.encoder.OkxOrderListRequestEncoder;
-import com.example.tradingapp.trading.model.OkxOrderListResponse;
+import com.example.tradingapp.trading.model.response.OkxOrderListResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.CloseableHttpResponse;

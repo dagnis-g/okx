@@ -1,6 +1,6 @@
 package com.example.tradingapp.trading.encoder;
 
-import com.example.tradingapp.trading.model.OrderRequest;
+import com.example.tradingapp.trading.model.request.OrderRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.http.client.methods.HttpRequestBase;
 

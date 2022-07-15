@@ -1,5 +1,7 @@
-package com.example.tradingapp.trading.model;
+package com.example.tradingapp.trading.model.request;
 
+import com.example.tradingapp.trading.model.enums.OrderType;
+import com.example.tradingapp.trading.model.enums.Side;
 import lombok.Builder;
 import lombok.Data;
 

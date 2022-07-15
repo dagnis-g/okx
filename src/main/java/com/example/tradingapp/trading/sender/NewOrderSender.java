@@ -1,7 +1,7 @@
 package com.example.tradingapp.trading.sender;
 
-import com.example.tradingapp.trading.model.OrderRequest;
-import com.example.tradingapp.trading.model.OrderResponseStatus;
+import com.example.tradingapp.trading.model.request.OrderRequest;
+import com.example.tradingapp.trading.model.response.OrderResponseStatus;
 
 import java.io.IOException;
 

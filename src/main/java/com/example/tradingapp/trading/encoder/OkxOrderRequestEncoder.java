@@ -1,7 +1,7 @@
 package com.example.tradingapp.trading.encoder;
 
-import com.example.tradingapp.trading.model.OkxOrderRequest;
-import com.example.tradingapp.trading.model.OrderRequest;
+import com.example.tradingapp.trading.model.request.OkxOrderRequest;
+import com.example.tradingapp.trading.model.request.OrderRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class OkxOrderRequestEncoder implements OrderRequestEncoder {
 
     private final OkxUriAndHeaderEncoder uriAndHeaderEncoder;
     private final ModelMapper modelMapper;
-    
+
     private final String PATH = "/api/v5/trade/order";
 
     private final ObjectMapper mapper = new ObjectMapper();

@@ -1,6 +1,6 @@
 package com.example.tradingapp.trading.decoder;
 
-import com.example.tradingapp.trading.model.OrderResponseStatus;
+import com.example.tradingapp.trading.model.response.OrderResponseStatus;
 import org.apache.http.HttpResponse;
 
 import java.io.IOException;

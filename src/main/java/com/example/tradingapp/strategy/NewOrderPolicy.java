@@ -3,7 +3,7 @@ package com.example.tradingapp.strategy;
 import com.example.tradingapp.tracker.Order;
 import com.example.tradingapp.tracker.OrderStatus;
 import com.example.tradingapp.trading.OrderTracker;
-import com.example.tradingapp.trading.model.OrderRequest;
+import com.example.tradingapp.trading.model.request.OrderRequest;
 import com.example.tradingapp.trading.sender.NewOrderSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

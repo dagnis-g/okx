@@ -1,11 +1,13 @@
-package com.example.tradingapp.trading.model;
+package com.example.tradingapp.trading.model.response;
 
 import com.example.tradingapp.tracker.OrderStatus;
+import com.example.tradingapp.trading.model.enums.OrderType;
+import com.example.tradingapp.trading.model.enums.Side;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class OrderListResponseData {
+public class OkxOrderListResponseData {
     @JsonProperty("ordId")
     private String id;
     @JsonProperty("state")
