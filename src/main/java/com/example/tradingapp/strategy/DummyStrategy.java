@@ -37,7 +37,7 @@ public class DummyStrategy {
     }
 
     public void cancelOrder() throws IOException {
-        String orderId = orderTracker.getPlacedOrderId().get(0);
+        String orderId = orderTracker.getPlacedOrderIds().get(0);
         Order orderToCancel = orderTracker.getPlacedOrders().get(orderId);
         var request = new OkxCancelOrderRequest();
         request.setOrderId(orderId);

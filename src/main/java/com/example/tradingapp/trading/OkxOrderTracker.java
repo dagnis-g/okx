@@ -14,20 +14,20 @@ import java.util.Map;
 public class OkxOrderTracker implements OrderTracker {
 
     Map<String, Order> placedOrders = new HashMap<>();
-    List<String> placedOrderId = new ArrayList<>();
+    List<String> placedOrderIds = new ArrayList<>();
 
     public Map<String, Order> getPlacedOrders() {
         return placedOrders;
     }
 
-    public List<String> getPlacedOrderId() {
-        return placedOrderId;
+    public List<String> getPlacedOrderIds() {
+        return placedOrderIds;
     }
 
     @Override
     public void create(Order order) {
         placedOrders.put(order.getId(), order);
-        placedOrderId.add(order.getId());
+        placedOrderIds.add(order.getId());
         log.info("Created New Order: {}", order);
     }
 
@@ -43,7 +43,7 @@ public class OkxOrderTracker implements OrderTracker {
 
     @Override
     public void canceled(String orderId) {
-        placedOrderId.remove(orderId);
+        placedOrderIds.remove(orderId);
         placedOrders.remove(orderId);
         log.info("Removed from placed orders by ID: {}", orderId);
     }
