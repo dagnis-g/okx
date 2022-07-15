@@ -1,6 +1,7 @@
 package com.example.tradingapp.scheduled;
 
 import com.example.tradingapp.strategy.DummyStrategy;
+import com.example.tradingapp.strategy.GetAccountBalancePolicy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -14,6 +15,7 @@ import java.io.IOException;
 public class ScheduledStrategyExecutor {
 
     private final DummyStrategy dummyStrategy;
+    private final GetAccountBalancePolicy balancePolicy;
 
     @Scheduled(fixedRate = 5000, initialDelay = 1500)
     public void executeStrategy() throws IOException {
@@ -25,6 +27,12 @@ public class ScheduledStrategyExecutor {
     public void executeCancelOrder() throws IOException {
         log.info("Executing cancel order");
         dummyStrategy.cancelOrder();
+    }
+
+    @Scheduled(fixedRate = 5000)
+    public void executeGetBalance() throws IOException {
+        log.info("Executing get balance");
+        balancePolicy.getBalance();
     }
 }
 
