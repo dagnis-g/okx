@@ -1,4 +1,4 @@
-package com.example.tradingapp.trading.model;
+package com.example.tradingapp.trading.model.enums;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

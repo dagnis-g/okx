@@ -1,4 +1,4 @@
-package com.example.tradingapp.trading.model;
+package com.example.tradingapp.trading.model.response;
 
 import lombok.Data;
 
@@ -8,6 +8,6 @@ import java.util.List;
 public class OkxOrderListResponse {
 
     private String code;
-    private List<OrderListResponseData> data;
-    
+    private List<OkxOrderListResponseData> data;
+
 }

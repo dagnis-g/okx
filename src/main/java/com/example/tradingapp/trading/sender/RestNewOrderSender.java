@@ -2,8 +2,8 @@ package com.example.tradingapp.trading.sender;
 
 import com.example.tradingapp.trading.decoder.OkxOrderResponseDecoder;
 import com.example.tradingapp.trading.encoder.OkxOrderRequestEncoder;
-import com.example.tradingapp.trading.model.OrderRequest;
-import com.example.tradingapp.trading.model.OrderResponseStatus;
+import com.example.tradingapp.trading.model.request.OrderRequest;
+import com.example.tradingapp.trading.model.response.OrderResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.CloseableHttpResponse;

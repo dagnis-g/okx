@@ -1,4 +1,4 @@
-package com.example.tradingapp.trading.model;
+package com.example.tradingapp.trading.model.response;
 
 import lombok.Builder;
 import lombok.Data;

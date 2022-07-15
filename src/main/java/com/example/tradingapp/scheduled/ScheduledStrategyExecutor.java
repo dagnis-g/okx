@@ -17,8 +17,14 @@ public class ScheduledStrategyExecutor {
 
     @Scheduled(fixedRate = 5000, initialDelay = 1500)
     public void executeStrategy() throws IOException {
-        log.info("Executing");
+        log.info("Executing new order");
         dummyStrategy.execute();
+    }
+
+    @Scheduled(fixedRate = 6000, initialDelay = 2000)
+    public void executeCancelOrder() throws IOException {
+        log.info("Executing cancel order");
+        dummyStrategy.cancelOrder();
     }
 }
 

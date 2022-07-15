@@ -1,6 +1,6 @@
 package com.example.tradingapp.trading.decoder;
 
-import com.example.tradingapp.trading.model.OkxOrderListResponse;
+import com.example.tradingapp.trading.model.response.OkxOrderListResponse;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;

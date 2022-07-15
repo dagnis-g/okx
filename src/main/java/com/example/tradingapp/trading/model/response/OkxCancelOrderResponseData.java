@@ -1,18 +1,18 @@
-package com.example.tradingapp.trading.model;
+package com.example.tradingapp.trading.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class OkxOrderResponseData {
+public class OkxCancelOrderResponseData {
+
     @JsonProperty("clOrdId")
-    private String clientSuppliedOrderId;
+    private String clientSupliedId;
     @JsonProperty("ordId")
     private String orderId;
     @JsonProperty("sCode")
     private String successCode;
     @JsonProperty("sMsg")
-    private String message;
-    @JsonProperty("tag")
-    private String orderTag;
+    private String errorMessage;
+
 }
