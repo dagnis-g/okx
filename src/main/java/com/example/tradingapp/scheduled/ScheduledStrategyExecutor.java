@@ -38,7 +38,7 @@ public class ScheduledStrategyExecutor {
     }
 
     @Scheduled(fixedRate = 5000)
-    private void removeTerminalOrders() {
+    public void removeTerminalOrders() {
         orderTracker.getPlacedOrders().entrySet()
                 .removeIf(entry -> {
                     boolean isTerminal = entry.getValue().getStatus().isTerminal();
