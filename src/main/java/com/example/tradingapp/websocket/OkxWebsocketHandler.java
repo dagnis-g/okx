@@ -11,12 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 @Slf4j
-public class MyWebsocketHandler implements WebSocketHandler {
+public class OkxWebsocketHandler implements WebSocketHandler {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -41,20 +42,9 @@ public class MyWebsocketHandler implements WebSocketHandler {
         if (jsonNode.has("event") && "login".equals(jsonNode.get("event").asText())) {
 
             if ("0".equals(jsonNode.get("code").asText())) {
-                var subscribeArg = SubscribeArg.builder()
-                        .instType("ANY")
-                        .channel("orders")
-                        .build();
-                List<SubscribeArg> args = new ArrayList<>();
-                args.add(subscribeArg);
-                var subscribeRequest = SubscribeRequest.builder()
-                        .op("subscribe")
-                        .args(args)
-                        .build();
-                String subscribeJson = mapper.writeValueAsString(subscribeRequest);
-                session.sendMessage(new TextMessage(subscribeJson));
+                subscribeToSingleChannel(session, "orders");
             } else {
-                log.warn("Login not successful");
+                log.warn("Login not successful: {}", jsonNode);
             }
 
         } else if (jsonNode.has("event") && "subscribe".equals(jsonNode.get("event").asText())) {
@@ -64,8 +54,7 @@ public class MyWebsocketHandler implements WebSocketHandler {
         }
 
     }
-
-
+    
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
         log.info("handleTransportError. session: {}", session, exception);
@@ -81,5 +70,20 @@ public class MyWebsocketHandler implements WebSocketHandler {
     @Override
     public boolean supportsPartialMessages() {
         return false;
+    }
+
+    private void subscribeToSingleChannel(WebSocketSession session, String channel) throws IOException {
+        var subscribeArg = SubscribeArg.builder()
+                .instType("ANY")
+                .channel(channel)
+                .build();
+        List<SubscribeArg> args = new ArrayList<>();
+        args.add(subscribeArg);
+        var subscribeRequest = SubscribeRequest.builder()
+                .op("subscribe")
+                .args(args)
+                .build();
+        String subscribeJson = mapper.writeValueAsString(subscribeRequest);
+        session.sendMessage(new TextMessage(subscribeJson));
     }
 }
