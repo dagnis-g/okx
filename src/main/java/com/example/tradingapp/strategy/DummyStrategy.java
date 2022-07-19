@@ -39,12 +39,15 @@ public class DummyStrategy {
     public void cancelOrder() throws IOException {
         String orderId = orderTracker.getPlacedOrderIds().get(0);
         Order orderToCancel = orderTracker.getPlacedOrders().get(orderId);
-        var request = new OkxCancelOrderRequest();
-        request.setOrderId(orderId);
-        request.setSymbol(orderToCancel.getSymbol());
+        if (orderToCancel != null) {
+            var request = new OkxCancelOrderRequest();
+            request.setOrderId(orderId);
+            request.setSymbol(orderToCancel.getSymbol());
 
-        log.info("Canceling order: {}", request);
-        cancelOrderPolicy.cancelOrder(request);
+            log.info("Canceling order: {}", request);
+            cancelOrderPolicy.cancelOrder(request);
+        }
+
     }
 }
 

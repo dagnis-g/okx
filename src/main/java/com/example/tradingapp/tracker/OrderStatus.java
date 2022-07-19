@@ -10,9 +10,14 @@ public enum OrderStatus {
     New(false),
     @JsonProperty("live")
     Live(false),
+    @JsonProperty("failed")
     Failed(true),
+    @JsonProperty("canceled")
     Canceled(true),
-    FullyFilled(true);
+    @JsonProperty("filled")
+    FullyFilled(true),
+    @JsonProperty("partially_filled")
+    PartiallyFilled(false);
 
     @Getter
     private final boolean terminal;

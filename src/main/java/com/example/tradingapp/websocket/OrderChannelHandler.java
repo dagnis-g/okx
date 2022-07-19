@@ -1,0 +1,40 @@
+package com.example.tradingapp.websocket;
+
+import com.example.tradingapp.tracker.OrderStatus;
+import com.example.tradingapp.trading.OkxOrderTracker;
+import com.example.tradingapp.websocket.model.OkxOrderStatusUpdate;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class OrderChannelHandler {
+
+    private final OkxOrderTracker orderTracker;
+    private final ObjectMapper mapper = new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+    public void handleOrderStatus(JsonNode jsonNode) throws JsonProcessingException {
+
+        var orderStatusUpdate = mapper.treeToValue(jsonNode, OkxOrderStatusUpdate.class);
+        var orderStatusData = orderStatusUpdate.getData().get(0);
+        String orderId = orderStatusData.getOrderId();
+
+        if (orderStatusData.getState() == OrderStatus.Live) {
+            orderTracker.live(orderId);
+        } else if (orderStatusData.getState() == OrderStatus.Canceled) {
+            orderTracker.canceled(orderId);
+        } else if (orderStatusData.getState() == OrderStatus.PartiallyFilled) {
+            orderTracker.filled(orderId, false);
+        } else if (orderStatusData.getState() == OrderStatus.FullyFilled) {
+            orderTracker.filled(orderId, true);
+        }
+    }
+
+}

@@ -2,6 +2,7 @@ package com.example.tradingapp.scheduled;
 
 import com.example.tradingapp.strategy.DummyStrategy;
 import com.example.tradingapp.strategy.GetAccountBalancePolicy;
+import com.example.tradingapp.trading.OkxOrderTracker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,6 +17,7 @@ public class ScheduledStrategyExecutor {
 
     private final DummyStrategy dummyStrategy;
     private final GetAccountBalancePolicy balancePolicy;
+    private final OkxOrderTracker orderTracker;
 
     @Scheduled(fixedRate = 5000, initialDelay = 1500)
     public void executeStrategy() throws IOException {
@@ -33,6 +35,19 @@ public class ScheduledStrategyExecutor {
     public void executeGetBalance() throws IOException {
         log.info("Executing get balance");
         balancePolicy.getBalance();
+    }
+
+    @Scheduled(fixedRate = 5000)
+    private void removeTerminalOrders() {
+        orderTracker.getPlacedOrders().entrySet()
+                .removeIf(entry -> {
+                    boolean isTerminal = entry.getValue().getStatus().isTerminal();
+                    if (isTerminal) {
+                        log.info("Removed order({}),reason: terminal Status-{}",
+                                entry.getValue().getId(), entry.getValue().getStatus());
+                    }
+                    return isTerminal;
+                });
     }
 }
 
