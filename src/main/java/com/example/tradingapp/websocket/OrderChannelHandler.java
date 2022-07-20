@@ -1,7 +1,7 @@
 package com.example.tradingapp.websocket;
 
 import com.example.tradingapp.trading.OkxOrderTracker;
-import com.example.tradingapp.websocket.model.OkxOrderStatus;
+import com.example.tradingapp.trading.model.enums.OkxOrderStatus;
 import com.example.tradingapp.websocket.model.OkxOrderStatusUpdate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;

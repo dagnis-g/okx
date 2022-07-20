@@ -1,6 +1,7 @@
 package com.example.tradingapp.strategy;
 
 import com.example.tradingapp.tracker.Order;
+import com.example.tradingapp.tracker.OrderStatus;
 import com.example.tradingapp.trading.OrderTracker;
 import com.example.tradingapp.trading.decoder.OkxOrderListResponseDecoder;
 import com.example.tradingapp.trading.encoder.OkxOrderListRequestEncoder;
@@ -39,7 +40,7 @@ public class OpenOrderPolicy {
         for (var data : status.getData()) {
             var order = Order.builder()
                     .id(data.getId())
-                    .status(data.getStatus())
+                    .status(OrderStatus.New)
                     .symbol(data.getSymbol())
                     .side(data.getSide())
                     .type(data.getType())
