@@ -24,6 +24,7 @@ public class OkxWebsocketHandler implements WebSocketHandler {
 
     private final OrderChannelHandler orderChannelHandler;
     private final AccountChannelHandler accountChannelHandler;
+    private final OkxPositionHandler positionHandler;
     private final ObjectMapper mapper = new ObjectMapper();
     @Value("${okx.symbols.enabled}")
     private String currencies;
@@ -68,8 +69,17 @@ public class OkxWebsocketHandler implements WebSocketHandler {
             orderChannelHandler.handleOrderStatus(jsonNode);
         } else if (isChannelAccount(jsonNode)) {
             accountChannelHandler.handleBalance(jsonNode);
+        } else if (isPositionAccount(jsonNode)) {
+            positionHandler.handlePositions(jsonNode);
         }
 
+    }
+
+    private boolean isPositionAccount(JsonNode jsonNode) {
+        return jsonNode.has("arg")
+                && jsonNode.has("data")
+                && jsonNode.get("arg").has("channel")
+                && "positions".equals(jsonNode.get("arg").get("channel").asText());
     }
 
     private boolean isChannelAccount(JsonNode jsonNode) {
