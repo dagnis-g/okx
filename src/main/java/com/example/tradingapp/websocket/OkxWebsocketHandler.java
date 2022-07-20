@@ -7,6 +7,7 @@ import com.example.tradingapp.websocket.model.request.SubscribeArg;
 import com.example.tradingapp.websocket.model.request.SubscribeRequest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
@@ -17,8 +18,9 @@ import java.util.List;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class OkxWebsocketHandler implements WebSocketHandler {
-
+    private final OrderChannelHandler orderChannelHandler;
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Override
@@ -53,8 +55,12 @@ public class OkxWebsocketHandler implements WebSocketHandler {
 
         }
 
+        if (isOrderFromOrderChannel(jsonNode)) {
+            orderChannelHandler.handleOrderStatus(jsonNode);
+        }
+
     }
-    
+
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
         log.info("handleTransportError. session: {}", session, exception);
@@ -70,6 +76,13 @@ public class OkxWebsocketHandler implements WebSocketHandler {
     @Override
     public boolean supportsPartialMessages() {
         return false;
+    }
+
+    private boolean isOrderFromOrderChannel(JsonNode jsonNode) {
+        return jsonNode.has("arg")
+                && jsonNode.has("data")
+                && jsonNode.get("arg").has("channel")
+                && "orders".equals(jsonNode.get("arg").get("channel").asText());
     }
 
     private void subscribeToSingleChannel(WebSocketSession session, String channel) throws IOException {
