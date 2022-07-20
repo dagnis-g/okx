@@ -2,6 +2,7 @@ package com.example.tradingapp.scheduled;
 
 import com.example.tradingapp.strategy.DummyStrategy;
 import com.example.tradingapp.strategy.GetAccountBalancePolicy;
+import com.example.tradingapp.strategy.GetAccountPositionsPolicy;
 import com.example.tradingapp.trading.OkxOrderTracker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ public class ScheduledStrategyExecutor {
     private final DummyStrategy dummyStrategy;
     private final GetAccountBalancePolicy balancePolicy;
     private final OkxOrderTracker orderTracker;
+    private final GetAccountPositionsPolicy positionsPolicy;
 
     @Scheduled(fixedRate = 5000, initialDelay = 1500)
     public void executeStrategy() throws IOException {
@@ -35,6 +37,12 @@ public class ScheduledStrategyExecutor {
     public void executeGetBalance() throws IOException {
         log.info("Executing get balance");
         balancePolicy.getBalance();
+    }
+
+    @Scheduled(fixedRate = 5500)
+    public void executeGetPositions() throws IOException {
+        log.info("Executing get positions");
+        positionsPolicy.getPositions();
     }
 
     @Scheduled(fixedRate = 5000)
