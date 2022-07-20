@@ -34,7 +34,7 @@ class OrderChannelHandlerTest {
 
     @Test
     void shouldChangeStatusNewToLiveAndLogTheChange(CapturedOutput output) throws JsonProcessingException {
-        var orderToInsert = buildOrder();
+        var orderToInsert = buildOrder(OrderStatus.New);
 
         orderTracker.getPlacedOrders().put(orderToInsert.getId(), orderToInsert);
         JsonNode jsonNode = mapper.readTree(jsonString);
@@ -48,7 +48,7 @@ class OrderChannelHandlerTest {
 
     @Test
     void shouldChangeStatusNewToFullyFilled() throws JsonProcessingException {
-        var orderToInsert = buildOrder();
+        var orderToInsert = buildOrder(OrderStatus.New);
 
         orderTracker.getPlacedOrders().put(orderToInsert.getId(), orderToInsert);
         String modifiedJsonString = jsonString.replace("live", "filled");
@@ -62,7 +62,7 @@ class OrderChannelHandlerTest {
 
     @Test
     void shouldChangeStatusNewToCancelled() throws JsonProcessingException {
-        var orderToInsert = buildOrder();
+        var orderToInsert = buildOrder(OrderStatus.New);
 
         orderTracker.getPlacedOrders().put(orderToInsert.getId(), orderToInsert);
         String modifiedJsonString = jsonString.replace("live", "canceled");
@@ -76,7 +76,7 @@ class OrderChannelHandlerTest {
 
     @Test
     void shouldChangeStatusNewToLiveToFilled() throws JsonProcessingException {
-        var orderToInsert = buildOrder();
+        var orderToInsert = buildOrder(OrderStatus.New);
 
         orderTracker.getPlacedOrders().put(orderToInsert.getId(), orderToInsert);
 
@@ -96,7 +96,7 @@ class OrderChannelHandlerTest {
 
     @Test
     void shouldChangeStatusNewToLiveToCanceled() throws JsonProcessingException {
-        var orderToInsert = buildOrder();
+        var orderToInsert = buildOrder(OrderStatus.New);
 
         orderTracker.getPlacedOrders().put(orderToInsert.getId(), orderToInsert);
 
@@ -106,28 +106,46 @@ class OrderChannelHandlerTest {
 
         assertThat(orderFromTrackerLive.getStatus()).isEqualTo(OrderStatus.Live);
 
-        String modifiedJsonStringFilled = jsonString.replace("live", "canceled");
+        String modifiedJsonStringCanceled = jsonString.replace("live", "canceled");
+        JsonNode jsonNodeCanceled = mapper.readTree(modifiedJsonStringCanceled);
+        channelHandler.handleOrderStatus(jsonNodeCanceled);
+        var orderFromTrackerCanceled = orderTracker.getPlacedOrders().get(orderToInsert.getId());
+
+        assertThat(orderFromTrackerCanceled.getStatus()).isEqualTo(OrderStatus.Canceled);
+    }
+
+    @Test
+    void shouldChangeStatusNewToLiveToStillLiveToFilled() throws JsonProcessingException {
+        var orderToInsert = buildOrder(OrderStatus.New);
+
+        orderTracker.getPlacedOrders().put(orderToInsert.getId(), orderToInsert);
+
+        JsonNode jsonNode = mapper.readTree(jsonString);
+        channelHandler.handleOrderStatus(jsonNode);
+        var orderFromTrackerLive = orderTracker.getPlacedOrders().get(orderToInsert.getId());
+
+        assertThat(orderFromTrackerLive.getStatus()).isEqualTo(OrderStatus.Live);
+
+        String modifiedJsonStringPartiallyFilled = jsonString.replace("live", "partially_filled");
+        JsonNode jsonNodePartiallyFilled = mapper.readTree(modifiedJsonStringPartiallyFilled);
+        channelHandler.handleOrderStatus(jsonNodePartiallyFilled);
+        var orderFromTrackerPartiallyFilled = orderTracker.getPlacedOrders().get(orderToInsert.getId());
+
+        assertThat(orderFromTrackerPartiallyFilled.getStatus()).isEqualTo(OrderStatus.Live);
+
+        String modifiedJsonStringFilled = jsonString.replace("live", "filled");
         JsonNode jsonNodeFilled = mapper.readTree(modifiedJsonStringFilled);
         channelHandler.handleOrderStatus(jsonNodeFilled);
         var orderFromTrackerFilled = orderTracker.getPlacedOrders().get(orderToInsert.getId());
 
-        assertThat(orderFromTrackerFilled.getStatus()).isEqualTo(OrderStatus.Canceled);
+        assertThat(orderFromTrackerFilled.getStatus()).isEqualTo(OrderStatus.FullyFilled);
     }
 
     @Test
     void shouldRemoveOrdersWithTerminalStatus() {
-        var orderToInsert1 = Order.builder()
-                .id("1")
-                .status(OrderStatus.New)
-                .build();
-        var orderToInsert2 = Order.builder()
-                .id("2")
-                .status(OrderStatus.Canceled)
-                .build();
-        var orderToInsert3 = Order.builder()
-                .id("3")
-                .status(OrderStatus.FullyFilled)
-                .build();
+        var orderToInsert1 = buildOrder(OrderStatus.New);
+        var orderToInsert2 = buildOrder(OrderStatus.Canceled);
+        var orderToInsert3 = buildOrder(OrderStatus.FullyFilled);
         orderTracker.getPlacedOrders().put(orderToInsert1.getId(), orderToInsert1);
         orderTracker.getPlacedOrders().put(orderToInsert2.getId(), orderToInsert2);
         orderTracker.getPlacedOrders().put(orderToInsert3.getId(), orderToInsert3);
@@ -138,10 +156,10 @@ class OrderChannelHandlerTest {
                 .forEach((key, value) -> assertThat(value.getStatus().isTerminal()).isEqualTo(false));
     }
 
-    private Order buildOrder() {
+    private Order buildOrder(OrderStatus status) {
         return Order.builder()
                 .id("1")
-                .status(OrderStatus.New)
+                .status(status)
                 .symbol("BTC")
                 .side(Side.BUY)
                 .type(OrderType.LIMIT)
