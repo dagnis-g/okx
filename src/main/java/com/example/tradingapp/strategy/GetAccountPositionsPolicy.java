@@ -1,9 +1,9 @@
 package com.example.tradingapp.strategy;
 
-import com.example.tradingapp.positions.OkxPositions;
 import com.example.tradingapp.positions.OkxPositionsRequestEncoder;
 import com.example.tradingapp.positions.OkxPositionsResponse;
 import com.example.tradingapp.positions.OkxPositionsResponseDecoder;
+import com.example.tradingapp.positions.Positions;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -19,7 +19,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class GetAccountPositionsPolicy {
 
-    private final OkxPositions okxPositions;
+    private final Positions positions;
     private final OkxPositionsRequestEncoder encoder;
     private final OkxPositionsResponseDecoder decoder;
 
@@ -32,10 +32,10 @@ public class GetAccountPositionsPolicy {
 
         if (positionsResponse.getCode().equals("0")) {
             for (var data : positionsResponse.getData()) {
-                okxPositions.getPositions().put(data.getPositionId(), data);
+                positions.updatePositionsFromOkx(data);
             }
         }
-        log.info("Current open future positions {}", okxPositions.getPositions());
+        log.info("Current open future positions from Http GET{}", positions.getPositions());
     }
 
 }
