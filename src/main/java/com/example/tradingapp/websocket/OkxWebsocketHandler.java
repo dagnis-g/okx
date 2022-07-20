@@ -27,6 +27,8 @@ public class OkxWebsocketHandler implements WebSocketHandler {
     private final ObjectMapper mapper = new ObjectMapper();
     @Value("${okx.symbols.enabled}")
     private String currencies;
+    @Value("${okx.subscribe.channels}")
+    private String channelsToSubscribeTo;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -43,13 +45,15 @@ public class OkxWebsocketHandler implements WebSocketHandler {
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         log.info("handleMessage. session: {}. message: {}", session, message);
         log.info("payload {}", message.getPayload());
-        
+
         JsonNode jsonNode = mapper.readTree(message.getPayload().toString());
 
         if (jsonNode.has("event") && "login".equals(jsonNode.get("event").asText())) {
 
             if ("0".equals(jsonNode.get("code").asText())) {
-                subscribeToChannels(session, "orders", "account");
+                if (!channelsToSubscribeTo.isBlank()) {
+                    subscribeToChannels(session, channelsToSubscribeTo.split(","));
+                }
             } else {
                 log.warn("Login not successful: {}", jsonNode);
             }
@@ -99,11 +103,10 @@ public class OkxWebsocketHandler implements WebSocketHandler {
                 && "orders".equals(jsonNode.get("arg").get("channel").asText());
     }
 
-    private void subscribeToChannels(WebSocketSession session, String... channel) throws IOException {
-        List<String> channelsToSubscribeTo = List.of(channel);
+    private void subscribeToChannels(WebSocketSession session, String[] channel) throws IOException {
         List<SubscribeArg> args = new ArrayList<>();
 
-        for (var ch : channelsToSubscribeTo) {
+        for (var ch : channel) {
             if (ch.equals("account")) {
                 if (!currencies.isBlank()) {
                     for (var ccy : currencies.split(",")) {
