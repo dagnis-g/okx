@@ -21,7 +21,7 @@ public class OkxOrderTracker implements OrderTracker {
 
     public void live(String orderId) {
         var newStatus = OrderStatus.Live;
-        changeStatus(newStatus, orderId, true);
+        changeStatus(newStatus, orderId);
     }
 
     @Override
@@ -39,27 +39,27 @@ public class OkxOrderTracker implements OrderTracker {
     @Override
     public void filled(String orderId, boolean fullFill) {
         var newStatus = OrderStatus.FullyFilled;
-        changeStatus(newStatus, orderId, fullFill);
+        changeStatus(newStatus, orderId);
+    }
+
+    public void partiallyFilled(String orderId) {
+        log.info("Order ({}) was partially filled", orderId);
     }
 
     @Override
     public void canceled(String orderId) {
         var newStatus = OrderStatus.Canceled;
-        changeStatus(newStatus, orderId, true);
+        changeStatus(newStatus, orderId);
     }
 
-    private void changeStatus(OrderStatus newStatus, String orderId, boolean fullFill) {
+    private void changeStatus(OrderStatus newStatus, String orderId) {
         if (placedOrders.get(orderId) == null) {
             log.error("Can't change status to {} for Order({}), Order already removed", newStatus, orderId);
         } else {
-            if (fullFill) {
-                OrderStatus oldStatus = placedOrders.get(orderId).getStatus();
-                placedOrders.get(orderId).setStatus(newStatus);
+            OrderStatus oldStatus = placedOrders.get(orderId).getStatus();
+            placedOrders.get(orderId).setStatus(newStatus);
 
-                log.info("Order ({}) status change: {} -> {}", orderId, oldStatus, newStatus);
-            } else {
-                log.info("Order ({}) was partially filled", orderId);
-            }
+            log.info("Order ({}) status change: {} -> {}", orderId, oldStatus, newStatus);
         }
     }
 }

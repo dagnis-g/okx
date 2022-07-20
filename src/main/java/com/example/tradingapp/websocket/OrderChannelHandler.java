@@ -31,7 +31,7 @@ public class OrderChannelHandler {
         } else if (orderStatusData.getState() == OkxOrderStatus.Canceled) {
             orderTracker.canceled(orderId);
         } else if (orderStatusData.getState() == OkxOrderStatus.PartiallyFilled) {
-            orderTracker.filled(orderId, false);
+            orderTracker.partiallyFilled(orderId);
         } else if (orderStatusData.getState() == OkxOrderStatus.FullyFilled) {
             orderTracker.filled(orderId, true);
         }

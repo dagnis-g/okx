@@ -40,7 +40,7 @@ public class OpenOrderPolicy {
         for (var data : status.getData()) {
             var order = Order.builder()
                     .id(data.getId())
-                    .status(OrderStatus.New)
+                    .status(OrderStatus.Live)
                     .symbol(data.getSymbol())
                     .side(data.getSide())
                     .type(data.getType())
