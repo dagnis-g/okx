@@ -21,15 +21,7 @@ public class OkxOrderTracker implements OrderTracker {
 
     public void live(String orderId) {
         var newStatus = OrderStatus.Live;
-
-        if (placedOrders.get(orderId) == null) {
-            log.error("Can't change status to {} for Order({}), Order already removed", newStatus, orderId);
-        } else {
-            OrderStatus oldStatus = placedOrders.get(orderId).getStatus();
-            placedOrders.get(orderId).setStatus(newStatus);
-
-            log.info("Order ({}) status change: {} -> {}", orderId, oldStatus, newStatus);
-        }
+        changeStatus(newStatus, orderId, true);
     }
 
     @Override
@@ -47,7 +39,16 @@ public class OkxOrderTracker implements OrderTracker {
     @Override
     public void filled(String orderId, boolean fullFill) {
         var newStatus = OrderStatus.FullyFilled;
+        changeStatus(newStatus, orderId, fullFill);
+    }
 
+    @Override
+    public void canceled(String orderId) {
+        var newStatus = OrderStatus.Canceled;
+        changeStatus(newStatus, orderId, true);
+    }
+
+    private void changeStatus(OrderStatus newStatus, String orderId, boolean fullFill) {
         if (placedOrders.get(orderId) == null) {
             log.error("Can't change status to {} for Order({}), Order already removed", newStatus, orderId);
         } else {
@@ -61,24 +62,4 @@ public class OkxOrderTracker implements OrderTracker {
             }
         }
     }
-
-    @Override
-    public void canceled(String orderId) {
-        var newStatus = OrderStatus.Canceled;
-
-        if (placedOrders.get(orderId) == null) {
-            log.error("Can't change status to {} for Order({}), Order already removed", newStatus, orderId);
-        } else {
-            OrderStatus oldStatus = placedOrders.get(orderId).getStatus();
-            placedOrders.get(orderId).setStatus(newStatus);
-
-            log.info("Order ({}) status change: {} -> {}", orderId, oldStatus, newStatus);
-        }
-    }
-
-    public void removeOrderFromPlacedOrders(String orderId) {
-        placedOrderIds.remove(orderId);
-        placedOrders.remove(orderId);
-    }
-
 }

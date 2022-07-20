@@ -33,16 +33,9 @@ class OrderChannelHandlerTest {
     ScheduledStrategyExecutor strategyExecutor;
 
     @Test
-    void shouldChangeStatusNewToLive() throws JsonProcessingException {
-        var orderToInsert = Order.builder()
-                .id("1")
-                .status(OrderStatus.New)
-                .symbol("BTC")
-                .side(Side.BUY)
-                .type(OrderType.LIMIT)
-                .price(1234)
-                .quantity(1)
-                .build();
+    void shouldChangeStatusNewToLiveAndLogTheChange(CapturedOutput output) throws JsonProcessingException {
+        var orderToInsert = buildOrder();
+
         orderTracker.getPlacedOrders().put(orderToInsert.getId(), orderToInsert);
         JsonNode jsonNode = mapper.readTree(jsonString);
         channelHandler.handleOrderStatus(jsonNode);
@@ -50,38 +43,13 @@ class OrderChannelHandlerTest {
         var orderFromTracker = orderTracker.getPlacedOrders().get(orderToInsert.getId());
 
         assertThat(orderFromTracker.getStatus()).isEqualTo(OrderStatus.Live);
-    }
-
-    @Test
-    void shouldLogStatusChange(CapturedOutput output) throws JsonProcessingException {
-        var orderToInsert = Order.builder()
-                .id("1")
-                .status(OrderStatus.New)
-                .symbol("BTC")
-                .side(Side.BUY)
-                .type(OrderType.LIMIT)
-                .price(1234)
-                .quantity(1)
-                .build();
-        orderTracker.getPlacedOrders().put(orderToInsert.getId(), orderToInsert);
-        JsonNode jsonNode = mapper.readTree(jsonString);
-
-        channelHandler.handleOrderStatus(jsonNode);
-
         assertThat(output.getOut()).contains("Order (1) status change: New -> Live");
     }
 
     @Test
     void shouldChangeStatusNewToFullyFilled() throws JsonProcessingException {
-        var orderToInsert = Order.builder()
-                .id("1")
-                .status(OrderStatus.New)
-                .symbol("BTC")
-                .side(Side.BUY)
-                .type(OrderType.LIMIT)
-                .price(1234)
-                .quantity(1)
-                .build();
+        var orderToInsert = buildOrder();
+
         orderTracker.getPlacedOrders().put(orderToInsert.getId(), orderToInsert);
         String modifiedJsonString = jsonString.replace("live", "filled");
         JsonNode jsonNode = mapper.readTree(modifiedJsonString);
@@ -94,15 +62,8 @@ class OrderChannelHandlerTest {
 
     @Test
     void shouldChangeStatusNewToCancelled() throws JsonProcessingException {
-        var orderToInsert = Order.builder()
-                .id("1")
-                .status(OrderStatus.New)
-                .symbol("BTC")
-                .side(Side.BUY)
-                .type(OrderType.LIMIT)
-                .price(1234)
-                .quantity(1)
-                .build();
+        var orderToInsert = buildOrder();
+
         orderTracker.getPlacedOrders().put(orderToInsert.getId(), orderToInsert);
         String modifiedJsonString = jsonString.replace("live", "canceled");
         JsonNode jsonNode = mapper.readTree(modifiedJsonString);
@@ -115,15 +76,8 @@ class OrderChannelHandlerTest {
 
     @Test
     void shouldChangeStatusNewToLiveToFilled() throws JsonProcessingException {
-        var orderToInsert = Order.builder()
-                .id("1")
-                .status(OrderStatus.New)
-                .symbol("BTC")
-                .side(Side.BUY)
-                .type(OrderType.LIMIT)
-                .price(1234)
-                .quantity(1)
-                .build();
+        var orderToInsert = buildOrder();
+
         orderTracker.getPlacedOrders().put(orderToInsert.getId(), orderToInsert);
 
         JsonNode jsonNode = mapper.readTree(jsonString);
@@ -142,15 +96,8 @@ class OrderChannelHandlerTest {
 
     @Test
     void shouldChangeStatusNewToLiveToCanceled() throws JsonProcessingException {
-        var orderToInsert = Order.builder()
-                .id("1")
-                .status(OrderStatus.New)
-                .symbol("BTC")
-                .side(Side.BUY)
-                .type(OrderType.LIMIT)
-                .price(1234)
-                .quantity(1)
-                .build();
+        var orderToInsert = buildOrder();
+
         orderTracker.getPlacedOrders().put(orderToInsert.getId(), orderToInsert);
 
         JsonNode jsonNode = mapper.readTree(jsonString);
@@ -189,6 +136,18 @@ class OrderChannelHandlerTest {
 
         orderTracker.getPlacedOrders()
                 .forEach((key, value) -> assertThat(value.getStatus().isTerminal()).isEqualTo(false));
+    }
+
+    private Order buildOrder() {
+        return Order.builder()
+                .id("1")
+                .status(OrderStatus.New)
+                .symbol("BTC")
+                .side(Side.BUY)
+                .type(OrderType.LIMIT)
+                .price(1234)
+                .quantity(1)
+                .build();
     }
 
     String jsonString = """

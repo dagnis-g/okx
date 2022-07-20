@@ -43,8 +43,9 @@ public class ScheduledStrategyExecutor {
                 .removeIf(entry -> {
                     boolean isTerminal = entry.getValue().getStatus().isTerminal();
                     if (isTerminal) {
-                        log.info("Removed order({}),reason: terminal Status-{}",
+                        log.info("Removed order({}), reason: terminal Status-{}",
                                 entry.getValue().getId(), entry.getValue().getStatus());
+                        orderTracker.getPlacedOrderIds().remove(entry.getValue().getId());
                     }
                     return isTerminal;
                 });

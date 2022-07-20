@@ -1,7 +1,7 @@
 package com.example.tradingapp.websocket;
 
-import com.example.tradingapp.tracker.OrderStatus;
 import com.example.tradingapp.trading.OkxOrderTracker;
+import com.example.tradingapp.websocket.model.OkxOrderStatus;
 import com.example.tradingapp.websocket.model.OkxOrderStatusUpdate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -26,13 +26,13 @@ public class OrderChannelHandler {
         var orderStatusData = orderStatusUpdate.getData().get(0);
         String orderId = orderStatusData.getOrderId();
 
-        if (orderStatusData.getState() == OrderStatus.Live) {
+        if (orderStatusData.getState() == OkxOrderStatus.Live) {
             orderTracker.live(orderId);
-        } else if (orderStatusData.getState() == OrderStatus.Canceled) {
+        } else if (orderStatusData.getState() == OkxOrderStatus.Canceled) {
             orderTracker.canceled(orderId);
-        } else if (orderStatusData.getState() == OrderStatus.PartiallyFilled) {
+        } else if (orderStatusData.getState() == OkxOrderStatus.PartiallyFilled) {
             orderTracker.filled(orderId, false);
-        } else if (orderStatusData.getState() == OrderStatus.FullyFilled) {
+        } else if (orderStatusData.getState() == OkxOrderStatus.FullyFilled) {
             orderTracker.filled(orderId, true);
         }
     }
