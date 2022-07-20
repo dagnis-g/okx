@@ -13,7 +13,7 @@ import java.util.Map;
 public class Account {
     private final Map<String, BigDecimal> balance = new HashMap<>();
 
-    public void updateAccount(OkxBalanceResponseDataDetails details) {
+    public void updateAccountFromOkx(OkxBalanceResponseDataDetails details) {
         String name = details.getCurrencyName();
         BigDecimal balance = details.getAvailableBalance();
         getBalance().put(name, balance);

@@ -37,7 +37,7 @@ public class GetAccountBalancePolicy {
         List<OkxBalanceResponseDataDetails> details = balanceData.getDetails();
 
         for (var detail : details) {
-            account.updateAccount(detail);
+            account.updateAccountFromOkx(detail);
         }
 
         log.info("Current account balance from Http GET {}", account.getBalance());
