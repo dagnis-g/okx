@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
 
@@ -20,8 +21,14 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class OkxWebsocketHandler implements WebSocketHandler {
+
     private final OrderChannelHandler orderChannelHandler;
+    private final AccountChannelHandler accountChannelHandler;
     private final ObjectMapper mapper = new ObjectMapper();
+    @Value("${okx.symbols.enabled}")
+    private String currencies;
+    @Value("${okx.subscribe.channels}")
+    private String channelsToSubscribeTo;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -37,14 +44,16 @@ public class OkxWebsocketHandler implements WebSocketHandler {
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         log.info("handleMessage. session: {}. message: {}", session, message);
-        log.info("Payload {}", message.getPayload());
+        log.info("payload {}", message.getPayload());
 
         JsonNode jsonNode = mapper.readTree(message.getPayload().toString());
 
         if (jsonNode.has("event") && "login".equals(jsonNode.get("event").asText())) {
 
             if ("0".equals(jsonNode.get("code").asText())) {
-                subscribeToSingleChannel(session, "orders");
+                if (!channelsToSubscribeTo.isBlank()) {
+                    subscribeToChannels(session, channelsToSubscribeTo.split(","));
+                }
             } else {
                 log.warn("Login not successful: {}", jsonNode);
             }
@@ -57,8 +66,17 @@ public class OkxWebsocketHandler implements WebSocketHandler {
 
         if (isOrderFromOrderChannel(jsonNode)) {
             orderChannelHandler.handleOrderStatus(jsonNode);
+        } else if (isChannelAccount(jsonNode)) {
+            accountChannelHandler.handleBalance(jsonNode);
         }
 
+    }
+
+    private boolean isChannelAccount(JsonNode jsonNode) {
+        return jsonNode.has("arg")
+                && jsonNode.has("data")
+                && jsonNode.get("arg").has("channel")
+                && "account".equals(jsonNode.get("arg").get("channel").asText());
     }
 
     @Override
@@ -85,13 +103,34 @@ public class OkxWebsocketHandler implements WebSocketHandler {
                 && "orders".equals(jsonNode.get("arg").get("channel").asText());
     }
 
-    private void subscribeToSingleChannel(WebSocketSession session, String channel) throws IOException {
-        var subscribeArg = SubscribeArg.builder()
-                .instType("ANY")
-                .channel(channel)
-                .build();
+    private void subscribeToChannels(WebSocketSession session, String[] channel) throws IOException {
         List<SubscribeArg> args = new ArrayList<>();
-        args.add(subscribeArg);
+
+        for (var ch : channel) {
+            if (ch.equals("account")) {
+                if (!currencies.isBlank()) {
+                    for (var ccy : currencies.split(",")) {
+                        args.add(SubscribeArg.builder()
+                                .instType("ANY")
+                                .channel(ch)
+                                .ccy(ccy)
+                                .build());
+                    }
+                } else {
+                    args.add(SubscribeArg.builder()
+                            .instType("ANY")
+                            .channel(ch)
+                            .build());
+                }
+
+            } else {
+                args.add(SubscribeArg.builder()
+                        .instType("ANY")
+                        .channel(ch)
+                        .build());
+            }
+        }
+
         var subscribeRequest = SubscribeRequest.builder()
                 .op("subscribe")
                 .args(args)

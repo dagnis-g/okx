@@ -1,5 +1,6 @@
 package com.example.tradingapp.account;
 
+import com.example.tradingapp.account.model.OkxBalanceResponseDataDetails;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -11,4 +12,10 @@ import java.util.Map;
 @Component
 public class Account {
     private final Map<String, BigDecimal> balance = new HashMap<>();
+
+    public void updateAccountFromOkx(OkxBalanceResponseDataDetails details) {
+        String name = details.getCurrencyName();
+        BigDecimal balance = details.getAvailableBalance();
+        getBalance().put(name, balance);
+    }
 }

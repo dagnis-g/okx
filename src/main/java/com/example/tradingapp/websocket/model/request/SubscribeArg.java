@@ -8,4 +8,5 @@ import lombok.Data;
 public class SubscribeArg {
     private String channel;
     private String instType;
+    private String ccy;
 }

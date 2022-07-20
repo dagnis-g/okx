@@ -15,7 +15,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
 
 @Slf4j
@@ -38,12 +37,10 @@ public class GetAccountBalancePolicy {
         List<OkxBalanceResponseDataDetails> details = balanceData.getDetails();
 
         for (var detail : details) {
-            String name = detail.getCurrencyName();
-            BigDecimal balance = detail.getAvailableBalance();
-            account.getBalance().put(name, balance);
+            account.updateAccountFromOkx(detail);
         }
 
-        log.info("Current account balance {}", account.getBalance());
+        log.info("Current account balance from Http GET {}", account.getBalance());
 
     }
 }
