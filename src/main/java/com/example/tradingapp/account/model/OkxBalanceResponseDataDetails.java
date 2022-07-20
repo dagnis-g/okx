@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 @Data
 public class OkxBalanceResponseDataDetails {
 
-    @JsonProperty("availBal")
+    @JsonProperty("cashBal")
     private BigDecimal availableBalance;
     @JsonProperty("ccy")
     private String currencyName;
