@@ -1,6 +1,5 @@
 package com.example.tradingapp.scheduled;
 
-import com.example.tradingapp.strategy.DummyStrategy;
 import com.example.tradingapp.strategy.GetAccountBalancePolicy;
 import com.example.tradingapp.strategy.GetAccountPositionsPolicy;
 import com.example.tradingapp.trading.OkxOrderTracker;
@@ -16,16 +15,9 @@ import java.io.IOException;
 @Slf4j
 public class ScheduledStrategyExecutor {
 
-    private final DummyStrategy dummyStrategy;
     private final GetAccountBalancePolicy balancePolicy;
     private final OkxOrderTracker orderTracker;
     private final GetAccountPositionsPolicy positionsPolicy;
-
-//    @Scheduled(fixedRate = 6000, initialDelay = 2000)
-//    public void executeCancelOrder() throws IOException {
-//        log.info("Executing cancel order");
-//        dummyStrategy.cancelOrder();
-//    }
 
     @Scheduled(fixedRate = 5000)
     public void executeGetBalance() throws IOException {
