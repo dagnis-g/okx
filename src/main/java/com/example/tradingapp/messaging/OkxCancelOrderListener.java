@@ -31,21 +31,15 @@ public class OkxCancelOrderListener {
     @JmsListener(destination = "order/cancel/okx")
     public void handle(Message message) throws IOException, JMSException {
 
-        List<OkxCancelOrderRequest> ordersToCancel = new ArrayList<>();
 
         if (message instanceof TextMessage textMessage) {
             try {
                 OrderRequest orderRequest = mapper.readValue(textMessage.getText(), OrderRequest.class);
                 log.info("Cancel Order Request from Solace: {}", orderRequest);
 
-                var order = Order.builder()
-                        .symbol(orderRequest.getSymbol())
-                        .side(orderRequest.getSide())
-                        .type(orderRequest.getType())
-                        .price(orderRequest.getPrice())
-                        .quantity(orderRequest.getQuantity())
-                        .build();
+                var order = buildOrderFromOrderRequest(orderRequest);
 
+                List<OkxCancelOrderRequest> ordersToCancel = new ArrayList<>();
                 for (var entity : orderTracker.getPlacedOrders().entrySet()) {
                     if (entity.getValue().equals(order)) {
                         ordersToCancel.add(OkxCancelOrderRequest.builder()
@@ -54,7 +48,7 @@ public class OkxCancelOrderListener {
                                 .build());
                     }
                 }
-                
+
                 if (ordersToCancel.size() > 0) {
                     cancelOrderPolicy.cancelOrder(ordersToCancel.get(0));
                 } else {
@@ -66,5 +60,15 @@ public class OkxCancelOrderListener {
             }
         }
 
+    }
+    
+    private Order buildOrderFromOrderRequest(OrderRequest orderRequest) {
+        return Order.builder()
+                .symbol(orderRequest.getSymbol())
+                .side(orderRequest.getSide())
+                .type(orderRequest.getType())
+                .price(orderRequest.getPrice())
+                .quantity(orderRequest.getQuantity())
+                .build();
     }
 }
