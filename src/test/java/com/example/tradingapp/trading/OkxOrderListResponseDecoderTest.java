@@ -1,7 +1,7 @@
 package com.example.tradingapp.trading;
 
-import com.example.tradingapp.tracker.OrderStatus;
 import com.example.tradingapp.trading.decoder.OkxOrderListResponseDecoder;
+import com.example.tradingapp.trading.model.enums.OkxOrderStatus;
 import com.example.tradingapp.trading.model.enums.OrderType;
 import com.example.tradingapp.trading.model.enums.Side;
 import org.apache.http.HttpResponse;
@@ -42,7 +42,7 @@ public class OkxOrderListResponseDecoderTest {
         assertThat(openOrders.getData().size()).isEqualTo(2);
 
         assertThat(order1.getId()).isEqualTo("467740559887708160");
-        assertThat(order1.getStatus()).isEqualTo(OrderStatus.Live);
+        assertThat(order1.getStatus()).isEqualTo(OkxOrderStatus.Live);
         assertThat(order1.getSymbol()).isEqualTo("BTC-USDT");
         assertThat(order1.getSide()).isEqualTo(Side.BUY);
         assertThat(order1.getType()).isEqualTo(OrderType.LIMIT);
@@ -50,7 +50,7 @@ public class OkxOrderListResponseDecoderTest {
         assertThat(order1.getQuantity()).isEqualTo(0.0001);
 
         assertThat(order2.getId()).isEqualTo("467740540212228096");
-        assertThat(order2.getStatus()).isEqualTo(OrderStatus.Live);
+        assertThat(order2.getStatus()).isEqualTo(OkxOrderStatus.Live);
         assertThat(order2.getSymbol()).isEqualTo("BTC-USDT");
         assertThat(order2.getSide()).isEqualTo(Side.BUY);
         assertThat(order2.getType()).isEqualTo(OrderType.LIMIT);
