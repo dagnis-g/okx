@@ -21,12 +21,6 @@ public class ScheduledStrategyExecutor {
     private final OkxOrderTracker orderTracker;
     private final GetAccountPositionsPolicy positionsPolicy;
 
-    @Scheduled(fixedRate = 5000, initialDelay = 1500)
-    public void executeStrategy() throws IOException {
-        log.info("Executing new order");
-        dummyStrategy.execute();
-    }
-
     @Scheduled(fixedRate = 6000, initialDelay = 2000)
     public void executeCancelOrder() throws IOException {
         log.info("Executing cancel order");

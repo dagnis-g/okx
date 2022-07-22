@@ -20,9 +20,15 @@ public class OkxPositionHandler {
 
     public void handlePositions(JsonNode jsonNode) throws JsonProcessingException {
         var positionResponse = mapper.treeToValue(jsonNode, OkxPositionsResponse.class);
-        var positionData = positionResponse.getData().get(0);
-        positions.updatePositionsFromOkx(positionData);
 
-        log.info("Current Future positions from Websocket {}", positions.getPositions());
+        if (positionResponse.getData().size() > 0) {
+            var positionData = positionResponse.getData().get(0);
+            positions.updatePositionsFromOkx(positionData);
+
+            log.info("Current Future positions from Websocket {}", positions.getPositions());
+        } else {
+            log.info("No active Future positions");
+        }
+
     }
 }
