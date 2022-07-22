@@ -28,13 +28,13 @@ public class OkxNewOrderListener {
         if (message instanceof TextMessage textMessage) {
             try {
                 OrderRequest orderRequest = mapper.readValue(textMessage.getText(), OrderRequest.class);
-                log.info("Order Request from Solace: {}", orderRequest);
+                log.info("New Order Request from Solace: {}", orderRequest);
                 newOrderPolicy.sendNewOrder(orderRequest);
             } catch (InvalidFormatException e) {
                 log.error("Not valid OrderRequest " + e);
             }
         }
-        
+
     }
 
 }
