@@ -16,21 +16,19 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class OkxCancelOrderListener {
-    private final ObjectMapper mapper = new ObjectMapper();
 
     private final CancelOrderPolicy cancelOrderPolicy;
     private final OkxOrderTracker orderTracker;
 
+    private final ObjectMapper mapper = new ObjectMapper();
+
     @JmsListener(destination = "order/cancel/okx")
     public void handle(Message message) throws IOException, JMSException {
-
 
         if (message instanceof TextMessage textMessage) {
             try {
@@ -39,29 +37,31 @@ public class OkxCancelOrderListener {
 
                 var order = buildOrderFromOrderRequest(orderRequest);
 
-                List<OkxCancelOrderRequest> ordersToCancel = new ArrayList<>();
+                boolean foundOrderToCancel = false;
                 for (var entity : orderTracker.getPlacedOrders().entrySet()) {
                     if (entity.getValue().equals(order)) {
-                        ordersToCancel.add(OkxCancelOrderRequest.builder()
+                        cancelOrderPolicy.cancelOrder(OkxCancelOrderRequest.builder()
                                 .orderId(entity.getKey())
                                 .symbol(entity.getValue().getSymbol())
                                 .build());
+                        foundOrderToCancel = true;
+                        break;
                     }
                 }
 
-                if (ordersToCancel.size() > 0) {
-                    cancelOrderPolicy.cancelOrder(ordersToCancel.get(0));
-                } else {
+                if (!foundOrderToCancel) {
                     log.warn("Can't cancel, no order matches {}", orderRequest);
                 }
 
             } catch (InvalidFormatException e) {
                 log.error("Not valid OrderRequest " + e);
             }
+        } else {
+            log.warn("Incorrect message format");
         }
 
     }
-    
+
     private Order buildOrderFromOrderRequest(OrderRequest orderRequest) {
         return Order.builder()
                 .symbol(orderRequest.getSymbol())
