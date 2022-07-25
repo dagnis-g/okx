@@ -1,6 +1,6 @@
 package com.example.tradingapp;
 
-import com.example.tradingapp.secrets.Secrets;
+import com.example.tradingapp.secrets.OkxSecrets;
 import com.example.tradingapp.trading.decoder.OkxOrderResponseDecoder;
 import com.example.tradingapp.trading.encoder.OkxOrderRequestEncoder;
 import com.example.tradingapp.trading.model.enums.OrderType;
@@ -39,11 +39,11 @@ public class TradingAppApplicationTests {
         HttpPost encodedReq = (HttpPost) encoder.encode(orderReq);
 
         assertThat(Arrays.toString(encodedReq.getHeaders("OK-ACCESS-KEY")))
-                .isEqualTo("[OK-ACCESS-KEY: " + Secrets.API_KEY + "]");
+                .isEqualTo("[OK-ACCESS-KEY: " + OkxSecrets.API_KEY + "]");
         assertThat(Arrays.toString(encodedReq.getHeaders("accept")))
                 .isEqualTo("[accept: application/json]");
         assertThat(Arrays.toString(encodedReq.getHeaders("OK-ACCESS-PASSPHRASE")))
-                .isEqualTo("[OK-ACCESS-PASSPHRASE: " + Secrets.PASSPHRASE + "]");
+                .isEqualTo("[OK-ACCESS-PASSPHRASE: " + OkxSecrets.PASSPHRASE + "]");
         assertThat(Arrays.toString(encodedReq.getHeaders("x-simulated-trading")))
                 .isEqualTo("[x-simulated-trading: " + 1 + "]");
         assertThat(Arrays.toString(encodedReq.getHeaders("Content-type")))

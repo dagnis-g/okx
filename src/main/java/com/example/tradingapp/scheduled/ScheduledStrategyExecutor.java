@@ -19,13 +19,13 @@ public class ScheduledStrategyExecutor {
     private final OkxOrderTracker orderTracker;
     private final GetAccountPositionsPolicy positionsPolicy;
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 30000)
     public void executeGetBalance() throws IOException {
         log.info("Executing get balance");
         balancePolicy.getBalance();
     }
 
-    @Scheduled(fixedRate = 5500)
+    @Scheduled(fixedRate = 30000)
     public void executeGetPositions() throws IOException {
         log.info("Executing get positions");
         positionsPolicy.getPositions();

@@ -14,10 +14,13 @@ target/
 .sts4-cache
 
 ### API-Secrets ###
-src/main/java/com/example/tradingapp/secrets/Secrets.java
+src/main/java/com/example/tradingapp/secrets/OkxSecrets.java
+src/main/java/com/example/tradingapp/secrets/DeribitSecrets.java
+src/main/resources/quickfixj-client.cfg
 
 ### Logs ###
 logs/trading.log
+logs-client/
 
 ### IntelliJ IDEA ###
 .idea
