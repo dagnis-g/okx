@@ -1,4 +1,4 @@
-package com.example.tradingapp.deribit;
+package com.example.tradingapp.deribit.fix;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

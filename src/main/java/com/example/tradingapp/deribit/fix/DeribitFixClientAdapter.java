@@ -1,5 +1,6 @@
-package com.example.tradingapp.deribit;
+package com.example.tradingapp.deribit.fix;
 
+import com.example.tradingapp.secrets.DeribitSecrets;
 import lombok.extern.slf4j.Slf4j;
 import quickfix.*;
 import quickfix.field.MsgType;
@@ -52,10 +53,9 @@ public class DeribitFixClientAdapter implements Application {
     public void onLogout(SessionID sessionId) {
         log.info("onLogout: SessionId={}", sessionId);
     }
-    
+
     @Override
     public void toAdmin(Message message, SessionID sessionId) {
-        log.error("aaaaaaaaaaadmiiiiiiiiiin");
         String msgType = null;
         try {
             msgType = message.getHeader().getString(MsgType.FIELD);
@@ -72,7 +72,7 @@ public class DeribitFixClientAdapter implements Application {
 
             String password554 = null;
             try {
-                password554 = encode(rawData96 + "cd_k-CSFUtIFaijYdVzgtxfmIOf0kkL-TE6OHxkkUDQ");
+                password554 = encode(rawData96 + DeribitSecrets.CLIENT_SECRET);
             } catch (NoSuchAlgorithmException e) {
                 log.error(String.valueOf(e));
             }
@@ -80,7 +80,7 @@ public class DeribitFixClientAdapter implements Application {
             log.info("toAdmin: Message={}, SessionId={}", message, sessionId);
             message.setString(108, "100");
             message.setString(96, rawData96);
-            message.setString(553, "OrFUL-Wg");
+            message.setString(553, DeribitSecrets.CLIENT_ID);
             message.setString(554, password554);
             log.info("Message {}", message.toXML());
         }

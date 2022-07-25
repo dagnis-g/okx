@@ -1,4 +1,4 @@
-package com.example.tradingapp.deribit;
+package com.example.tradingapp.deribit.fix;
 
 import lombok.extern.slf4j.Slf4j;
 import quickfix.FieldNotFound;
