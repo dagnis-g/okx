@@ -4,8 +4,9 @@ import com.example.tradingapp.secrets.DeribitSecrets;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import quickfix.Message;
-import quickfix.SessionID;
+import quickfix.*;
 import quickfix.fix44.MessageCracker;
+import quickfix.fix44.*;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -19,6 +20,32 @@ import java.util.UUID;
 @Component
 public class DeribitFixMessageCracker extends MessageCracker {
 
+    @Override
+    public void onMessage(OrderCancelRequest message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
+        log.warn("Order cancel request: {}", message);
+    }
+
+    @Override
+    public void onMessage(OrderCancelReject message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
+        log.warn("Order cancel reject: {}", message);
+    }
+
+    @Override
+    public void onMessage(Reject message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
+        log.error("Reject: {}", message);
+    }
+
+    @Override
+    public void onMessage(ExecutionReport message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
+        log.info("Execution report: {}", message);
+    }
+
+
+    @Override
+    public void onMessage(Logon message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
+        login(message, sessionID);
+    }
+
     public void login(Message message, SessionID sessionId) {
         String timeStamp = Instant.now().toEpochMilli() + ".";
         String nonce = Base64.getEncoder().encodeToString(convertUUIDToBytes());
@@ -30,7 +57,7 @@ public class DeribitFixMessageCracker extends MessageCracker {
         } catch (NoSuchAlgorithmException e) {
             log.error(String.valueOf(e));
         }
-        
+
         message.setString(108, "100");
         message.setString(96, rawData96);
         message.setString(553, DeribitSecrets.CLIENT_ID);
