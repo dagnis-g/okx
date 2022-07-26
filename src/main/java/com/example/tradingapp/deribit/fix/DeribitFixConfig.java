@@ -8,7 +8,7 @@ import quickfix.*;
 public class DeribitFixConfig {
 
     @Bean
-    public Application clientApplication(quickfix.fix44.MessageCracker messageCracker) {
+    public Application clientApplication(DeribitFixMessageCracker messageCracker) {
         return new DeribitFixClientAdapter(messageCracker);
     }
 

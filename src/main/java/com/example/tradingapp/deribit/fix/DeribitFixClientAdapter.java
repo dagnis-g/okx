@@ -1,42 +1,32 @@
 package com.example.tradingapp.deribit.fix;
 
-import com.example.tradingapp.secrets.DeribitSecrets;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import quickfix.*;
 import quickfix.field.MsgType;
-import quickfix.fix44.MessageCracker;
 
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.time.Instant;
-import java.util.Base64;
-import java.util.UUID;
+import java.util.Objects;
 
 @Slf4j
+@Component
 public class DeribitFixClientAdapter implements Application {
 
-    private final MessageCracker messageCracker;
+    private final DeribitFixMessageCracker messageCracker;
 
-    public DeribitFixClientAdapter(MessageCracker messageCracker) {
+    public DeribitFixClientAdapter(DeribitFixMessageCracker messageCracker) {
         this.messageCracker = messageCracker;
     }
 
     @Override
-    public void fromAdmin(Message message, SessionID sessionId) {
+    public void fromAdmin(Message message, SessionID sessionId) throws FieldNotFound, IncorrectTagValue {
+        var msgType = message.getHeader().getString(MsgType.FIELD);
+        log.warn("Message type from admin: {}", msgType);
         log.info("fromAdmin: Message={}, SessionId={}", message, sessionId);
     }
 
     @Override
     public void fromApp(Message message, SessionID sessionId) {
         log.info("fromApp: Message={}, SessionId={}", message, sessionId);
-
-        try {
-            messageCracker.crack(message, sessionId);
-        } catch (UnsupportedMessageType | FieldNotFound | IncorrectTagValue e) {
-            log.error(e.getMessage(), e);
-        }
     }
 
     @Override
@@ -46,7 +36,7 @@ public class DeribitFixClientAdapter implements Application {
 
     @Override
     public void onLogon(SessionID sessionId) {
-        log.info("onLogon: SessionId={}", sessionId);
+        log.warn("onLogon: SessionId={}", sessionId);
     }
 
     @Override
@@ -56,36 +46,18 @@ public class DeribitFixClientAdapter implements Application {
 
     @Override
     public void toAdmin(Message message, SessionID sessionId) {
+        log.warn("to admin: message {}, sessionId {}", sessionId, sessionId);
         String msgType = null;
         try {
             msgType = message.getHeader().getString(MsgType.FIELD);
         } catch (FieldNotFound e) {
-            log.error(String.valueOf(e));
+            log.error("toAdmin {}", e.getMessage());
         }
 
-        if (MsgType.LOGON.compareTo(msgType) == 0) {
-
-            String timeStamp = Instant.now().toEpochMilli() + ".";
-            String nonce = Base64.getEncoder().encodeToString(convertUUIDToBytes());
-
-            String rawData96 = timeStamp + nonce;
-
-            String password554 = null;
-            try {
-                password554 = encode(rawData96 + DeribitSecrets.CLIENT_SECRET);
-            } catch (NoSuchAlgorithmException e) {
-                log.error(String.valueOf(e));
-            }
-
-            log.info("toAdmin: Message={}, SessionId={}", message, sessionId);
-            message.setString(108, "100");
-            message.setString(96, rawData96);
-            message.setString(553, DeribitSecrets.CLIENT_ID);
-            message.setString(554, password554);
-            log.info("Message {}", message.toXML());
+        if (MsgType.LOGON.compareTo(Objects.requireNonNull(msgType)) == 0) {
+            messageCracker.login(message, sessionId);
         }
-
-
+        
     }
 
     @Override
@@ -93,16 +65,4 @@ public class DeribitFixClientAdapter implements Application {
         log.info("toApp: Message={}, SessionId={}", message, sessionId);
     }
 
-    private byte[] convertUUIDToBytes() {
-        UUID uuid = UUID.randomUUID();
-        ByteBuffer bb = ByteBuffer.wrap(new byte[32]);
-        bb.putLong(uuid.getMostSignificantBits());
-        bb.putLong(uuid.getLeastSignificantBits());
-        return bb.array();
-    }
-
-    public String encode(final String clearText) throws NoSuchAlgorithmException {
-        return new String(
-                Base64.getEncoder().encode(MessageDigest.getInstance("SHA-256").digest(clearText.getBytes(StandardCharsets.UTF_8))));
-    }
 }
