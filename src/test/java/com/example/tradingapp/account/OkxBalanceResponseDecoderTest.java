@@ -45,7 +45,7 @@ public class OkxBalanceResponseDecoderTest {
         assertThat(detail2.getAvailableBalance()).isEqualTo(BigDecimal.valueOf(15));
         assertThat(detail2.getCurrencyName()).isEqualTo("ETH");
 
-        assertThat(detail3.getAvailableBalance()).isEqualTo(BigDecimal.valueOf(9076.74973294));
+        assertThat(detail3.getAvailableBalance()).isEqualTo(BigDecimal.valueOf(9076.75023294));
         assertThat(detail3.getCurrencyName()).isEqualTo("USDT");
     }
 
