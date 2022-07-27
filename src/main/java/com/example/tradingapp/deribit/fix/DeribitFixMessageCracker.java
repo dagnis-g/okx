@@ -34,12 +34,12 @@ public class DeribitFixMessageCracker extends MessageCracker {
 
     @Override
     public void onMessage(OrderCancelRequest message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
-        log.warn("Order cancel request: {}", message);
+        log.info("Order cancel request: {}", message);
     }
 
     @Override
     public void onMessage(OrderCancelReject message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
-        log.warn("Order cancel reject: {}", message);
+        log.error("Order cancel reject: {}", message);
     }
 
     @Override
@@ -50,11 +50,10 @@ public class DeribitFixMessageCracker extends MessageCracker {
     @Override
     public void onMessage(ExecutionReport message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
 
-//        log.warn("Execution report xml: {}", message.toXML(new DataDictionary("FIX44.xml")));
-        log.warn("Execution report: {}", message);
+        log.info("Execution report: {}", message);
 
         var report = executionReportDecoder.decode(message);
-        log.warn("Report: {}", report);
+        log.info("Report: {}", report);
 
         var order = Order.builder()
                 .id(report.getDeribitId())
@@ -77,7 +76,7 @@ public class DeribitFixMessageCracker extends MessageCracker {
         } else if (report.getStatus() == DeribitOrderStatus.Rejected) {
             log.error("Order rejected: {}, {}", report.getRejectedReason(), report.getText());
         }
-        log.error("placed orders deribitHopefully: {}", deribitOrderTracker.getPlacedOrders());
+        log.info("PlacedOrders deribit: {}", deribitOrderTracker.getPlacedOrders());
     }
 
 
