@@ -23,9 +23,9 @@ public class DeribitNewOrderPolicy {
         UUID uuid = UUID.randomUUID();
         Message message = new quickfix.fix44.NewOrderSingle();
         message.setString(11, String.valueOf(uuid));
-        message.setString(54, "2");
+        message.setString(54, "1");
         message.setString(38, "1");
-        message.setString(44, "3");
+        message.setString(44, "3000");
         message.setString(55, "BTC-PERPETUAL");
 
         sendToTarget(message, "28work", "DERIBITSERVER");

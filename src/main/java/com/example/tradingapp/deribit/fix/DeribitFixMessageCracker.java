@@ -37,7 +37,7 @@ public class DeribitFixMessageCracker extends MessageCracker {
 
     @Override
     public void onMessage(ExecutionReport message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
-        log.info("Execution report: {}", message);
+        log.warn("Execution report: {}", message);
     }
 
 
