@@ -6,9 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum DeribitOrderType {
-    //    @JsonProperty("1")
     MARKET('1'),
-    //    @JsonProperty("2")
     LIMIT('2');
 
     private final char type;
