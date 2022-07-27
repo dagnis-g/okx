@@ -1,6 +1,14 @@
 package com.example.tradingapp.deribit.fix;
 
+import com.example.tradingapp.deribit.fix.model.DeribitOrderStatus;
+import com.example.tradingapp.deribit.fix.model.DeribitOrderType;
+import com.example.tradingapp.deribit.fix.model.DeribitSide;
 import com.example.tradingapp.secrets.DeribitSecrets;
+import com.example.tradingapp.tracker.Order;
+import com.example.tradingapp.tracker.OrderStatus;
+import com.example.tradingapp.trading.model.enums.OrderType;
+import com.example.tradingapp.trading.model.enums.Side;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import quickfix.Message;
@@ -18,16 +26,20 @@ import java.util.UUID;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class DeribitFixMessageCracker extends MessageCracker {
+
+    private final DeribitExecutionReportDecoder executionReportDecoder;
+    private final DeribitOrderTracker deribitOrderTracker;
 
     @Override
     public void onMessage(OrderCancelRequest message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
-        log.warn("Order cancel request: {}", message);
+        log.info("Order cancel request: {}", message);
     }
 
     @Override
     public void onMessage(OrderCancelReject message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
-        log.warn("Order cancel reject: {}", message);
+        log.error("Order cancel reject: {}", message);
     }
 
     @Override
@@ -37,7 +49,34 @@ public class DeribitFixMessageCracker extends MessageCracker {
 
     @Override
     public void onMessage(ExecutionReport message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
-        log.warn("Execution report: {}", message);
+
+        log.info("Execution report: {}", message);
+
+        var report = executionReportDecoder.decode(message);
+        log.info("Report: {}", report);
+
+        var order = Order.builder()
+                .id(report.getDeribitId())
+                .status(OrderStatus.Live)
+                .symbol(report.getSymbol())
+                .side(report.getSide() == DeribitSide.BUY ? Side.BUY : Side.SELL)
+                .type(report.getType() == DeribitOrderType.LIMIT ? OrderType.LIMIT : OrderType.MARKET)
+                .price(report.getPrice())
+                .quantity(report.getQuantity())
+                .build();
+
+        if (report.getStatus() == DeribitOrderStatus.New) {
+            deribitOrderTracker.create(order);
+        } else if (report.getStatus() == DeribitOrderStatus.PartiallyFilled) {
+            deribitOrderTracker.partiallyFilled(order.getId());
+        } else if (report.getStatus() == DeribitOrderStatus.Filled) {
+            deribitOrderTracker.filled(order.getId(), true);
+        } else if (report.getStatus() == DeribitOrderStatus.Canceled) {
+            deribitOrderTracker.canceled(order.getId());
+        } else if (report.getStatus() == DeribitOrderStatus.Rejected) {
+            log.error("Order rejected: {}, {}", report.getRejectedReason(), report.getText());
+        }
+        log.info("PlacedOrders deribit: {}", deribitOrderTracker.getPlacedOrders());
     }
 
 

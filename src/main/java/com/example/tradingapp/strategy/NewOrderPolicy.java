@@ -2,7 +2,7 @@ package com.example.tradingapp.strategy;
 
 import com.example.tradingapp.tracker.Order;
 import com.example.tradingapp.tracker.OrderStatus;
-import com.example.tradingapp.trading.OrderTracker;
+import com.example.tradingapp.trading.OkxOrderTracker;
 import com.example.tradingapp.trading.model.request.OrderRequest;
 import com.example.tradingapp.trading.sender.NewOrderSender;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import java.io.IOException;
 public class NewOrderPolicy {
 
     private final NewOrderSender newOrderSender;
-    private final OrderTracker orderTracker;
+    private final OkxOrderTracker orderTracker;
 
     public void sendNewOrder(OrderRequest orderRequest) throws IOException {
         var orderResponseStatus = newOrderSender.send(orderRequest);
