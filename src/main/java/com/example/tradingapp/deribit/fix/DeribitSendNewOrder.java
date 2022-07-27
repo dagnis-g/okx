@@ -15,7 +15,7 @@ import static quickfix.Session.sendToTarget;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DeribitNewOrderPolicy {
+public class DeribitSendNewOrder {
 
     //    @Scheduled(initialDelay = 3000, fixedDelay = Long.MAX_VALUE)
     @Scheduled(fixedRate = 3000, initialDelay = 3000)

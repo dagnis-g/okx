@@ -4,6 +4,7 @@ import com.example.tradingapp.tracker.Order;
 import com.example.tradingapp.tracker.OrderStatus;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,10 +15,11 @@ import java.util.Map;
 @Slf4j
 @Component
 @Getter
+@Primary
 public class OkxOrderTracker implements OrderTracker {
 
-    Map<String, Order> placedOrders = new HashMap<>();
-    List<String> placedOrderIds = new ArrayList<>();
+    private final Map<String, Order> placedOrders = new HashMap<>();
+    private final List<String> placedOrderIds = new ArrayList<>();
 
     public void live(String orderId) {
         var newStatus = OrderStatus.Live;
