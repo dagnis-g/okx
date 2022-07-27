@@ -1,6 +1,6 @@
 package com.example.tradingapp.websocket.encoder;
 
-import com.example.tradingapp.secrets.Secrets;
+import com.example.tradingapp.secrets.OkxSecrets;
 import com.example.tradingapp.websocket.model.request.LoginArg;
 import com.example.tradingapp.websocket.model.request.LoginRequest;
 import org.apache.commons.codec.digest.HmacAlgorithms;
@@ -16,9 +16,9 @@ import java.util.List;
 @Component
 public class LoginRequestEncoder {
 
-    private final String API_KEY = Secrets.API_KEY;
-    private final String SECRET_KEY = Secrets.SECRET_KEY;
-    private final String PASSPRHASE = Secrets.PASSPHRASE;
+    private final String API_KEY = OkxSecrets.API_KEY;
+    private final String SECRET_KEY = OkxSecrets.SECRET_KEY;
+    private final String PASSPRHASE = OkxSecrets.PASSPHRASE;
     private final String PATH = "/users/self/verify";
 
     public LoginRequest encode() throws UnsupportedEncodingException {

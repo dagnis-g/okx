@@ -1,6 +1,6 @@
 package com.example.tradingapp.trading.encoder;
 
-import com.example.tradingapp.secrets.Secrets;
+import com.example.tradingapp.secrets.OkxSecrets;
 import org.apache.commons.codec.digest.HmacAlgorithms;
 import org.apache.commons.codec.digest.HmacUtils;
 import org.apache.http.client.methods.HttpGet;
@@ -17,9 +17,9 @@ import java.util.Base64;
 @Component
 public class OkxUriAndHeaderEncoder {
 
-    private final String API_KEY = Secrets.API_KEY;
-    private final String SECRET_KEY = Secrets.SECRET_KEY;
-    private final String PASSPRHASE = Secrets.PASSPHRASE;
+    private final String API_KEY = OkxSecrets.API_KEY;
+    private final String SECRET_KEY = OkxSecrets.SECRET_KEY;
+    private final String PASSPRHASE = OkxSecrets.PASSPHRASE;
     private final String URL_PATH = "https://www.okx.com";
 
     public HttpRequestBase encode(String requestType, String path, String orderJson) throws UnsupportedEncodingException {
