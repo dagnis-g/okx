@@ -65,6 +65,9 @@ public class DeribitFixMessageCracker extends MessageCracker {
         if (message.getText().getValue().equals("total_reports")) {
             log.info("Total_reports message - MassStatusReqType: {}, TotalNumReports: {}",
                     message.getString(585), message.getString(911));
+        } else if (message.getText().getValue().equals("canceled")) {
+            log.warn("Cancelling order - ClOrdID: {}, OrigClOrdID: {}",
+                    message.getClOrdID(), message.getOrigClOrdID());
         } else {
             var report = executionReportDecoder.decode(message);
             log.info("Report: {}", report);

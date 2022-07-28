@@ -45,13 +45,12 @@ class OkxCancelOrderListenerTest {
     }
 
     @Test
-    void shouldLogOnOrderNotFound(CapturedOutput output) throws JMSException, IOException {
+    void shouldNotThrowOnOrderNotFound() throws JMSException, IOException {
         Session session = connectionFactory.createConnection().createSession(false, 1);
         TextMessage msg = session.createTextMessage();
         msg.setText(jsonNotFound);
         cancelOrderListener.handle(msg);
 
-        assertThat(output.getOut()).contains("Can't cancel, no order matches");
     }
 
     String json = """

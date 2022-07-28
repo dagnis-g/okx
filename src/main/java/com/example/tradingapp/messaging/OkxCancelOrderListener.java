@@ -1,7 +1,7 @@
 package com.example.tradingapp.messaging;
 
+import com.example.tradingapp.NoOrderFoundException;
 import com.example.tradingapp.strategy.CancelOrderPolicy;
-import com.example.tradingapp.tracker.Order;
 import com.example.tradingapp.trading.OkxOrderTracker;
 import com.example.tradingapp.trading.model.request.OkxCancelOrderRequest;
 import com.example.tradingapp.trading.model.request.OrderRequest;
@@ -34,27 +34,16 @@ public class OkxCancelOrderListener {
             try {
                 OrderRequest orderRequest = mapper.readValue(textMessage.getText(), OrderRequest.class);
                 log.info("Cancel Order Request from Solace: {}", orderRequest);
-
-                var order = buildOrderFromOrderRequest(orderRequest);
-
-                boolean foundOrderToCancel = false;
-                for (var entity : orderTracker.getPlacedOrders().entrySet()) {
-                    if (entity.getValue().equals(order)) {
-                        cancelOrderPolicy.cancelOrder(OkxCancelOrderRequest.builder()
-                                .orderId(entity.getKey())
-                                .symbol(entity.getValue().getSymbol())
-                                .build());
-                        foundOrderToCancel = true;
-                        break;
-                    }
-                }
-
-                if (!foundOrderToCancel) {
-                    log.warn("Can't cancel, no order matches {}", orderRequest);
-                }
+                var order = orderTracker.findOrderByOrderRequest(orderRequest);
+                cancelOrderPolicy.cancelOrder(OkxCancelOrderRequest.builder()
+                        .orderId(order.getId())
+                        .symbol(order.getSymbol())
+                        .build());
 
             } catch (InvalidFormatException e) {
                 log.error("Not valid OrderRequest " + e);
+            } catch (NoOrderFoundException e) {
+                log.error(e.getMessage());
             }
         } else {
             log.warn("Incorrect message format");
@@ -62,13 +51,4 @@ public class OkxCancelOrderListener {
 
     }
 
-    private Order buildOrderFromOrderRequest(OrderRequest orderRequest) {
-        return Order.builder()
-                .symbol(orderRequest.getSymbol())
-                .side(orderRequest.getSide())
-                .type(orderRequest.getType())
-                .price(orderRequest.getPrice())
-                .quantity(orderRequest.getQuantity())
-                .build();
-    }
 }
