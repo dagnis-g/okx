@@ -43,7 +43,7 @@ public class DeribitFixClientAdapter implements Application {
         try {
             messageCracker.crack(message, sessionID);
         } catch (UnsupportedMessageType | FieldNotFound | IncorrectTagValue e) {
-            log.error(e.getMessage());
+            log.error("To admin: {}", e.getMessage());
         }
     }
 
@@ -55,7 +55,7 @@ public class DeribitFixClientAdapter implements Application {
         try {
             messageCracker.crack(message, sessionID);
         } catch (UnsupportedMessageType e) {
-            log.error(e.getMessage());
+            log.error("From admin: {}", e.getMessage());
         }
     }
 
@@ -70,7 +70,7 @@ public class DeribitFixClientAdapter implements Application {
         try {
             messageCracker.crack(message, sessionID);
         } catch (UnsupportedMessageType | FieldNotFound | IncorrectTagValue e) {
-            log.error(e.getMessage());
+            log.error("To app: {}", e.toString());
         }
         log.info("Message type to app: {}", msgType);
         log.info("toApp: Message={}, SessionId={}", message, sessionID);
@@ -84,7 +84,7 @@ public class DeribitFixClientAdapter implements Application {
         try {
             messageCracker.crack(message, sessionID);
         } catch (UnsupportedMessageType e) {
-            log.error(e.getMessage());
+            log.error("From app: {}", e.getMessage());
         }
     }
 

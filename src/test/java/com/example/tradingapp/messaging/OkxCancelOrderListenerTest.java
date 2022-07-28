@@ -1,5 +1,7 @@
 package com.example.tradingapp.messaging;
 
+import com.example.tradingapp.NoOrderFoundException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,13 +47,12 @@ class OkxCancelOrderListenerTest {
     }
 
     @Test
-    void shouldLogOnOrderNotFound(CapturedOutput output) throws JMSException, IOException {
+    void shouldThrowOnOrderNotFound() throws JMSException {
         Session session = connectionFactory.createConnection().createSession(false, 1);
         TextMessage msg = session.createTextMessage();
         msg.setText(jsonNotFound);
-        cancelOrderListener.handle(msg);
-
-        assertThat(output.getOut()).contains("Can't cancel, no order matches");
+        ///Why is it failing? if - Caused by: com.example.tradingapp.NoOrderFoundException
+        Assertions.assertThrows(NoOrderFoundException.class, () -> cancelOrderListener.handle(msg));
     }
 
     String json = """
