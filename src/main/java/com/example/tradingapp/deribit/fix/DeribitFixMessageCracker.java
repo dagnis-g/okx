@@ -48,35 +48,52 @@ public class DeribitFixMessageCracker extends MessageCracker {
     }
 
     @Override
+    public void onMessage(OrderMassStatusRequest message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
+        log.info("OrderMassStatusRequest: {}", message);
+    }
+
+    @Override
+    public void onMessage(BusinessMessageReject message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
+        log.error("BusinessMessageReject: {}", message);
+    }
+
+    @Override
     public void onMessage(ExecutionReport message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
 
         log.info("Execution report: {}", message);
 
-        var report = executionReportDecoder.decode(message);
-        log.info("Report: {}", report);
+        if (message.getText().getValue().equals("total_reports")) {
+            log.info("Total_reports message - MassStatusReqType: {}, TotalNumReports: {}",
+                    message.getString(585), message.getString(911));
+        } else {
+            var report = executionReportDecoder.decode(message);
+            log.info("Report: {}", report);
 
-        var order = Order.builder()
-                .id(report.getDeribitId())
-                .status(OrderStatus.Live)
-                .symbol(report.getSymbol())
-                .side(report.getSide() == DeribitSide.BUY ? Side.BUY : Side.SELL)
-                .type(report.getType() == DeribitOrderType.LIMIT ? OrderType.LIMIT : OrderType.MARKET)
-                .price(report.getPrice())
-                .quantity(report.getQuantity())
-                .build();
+            var order = Order.builder()
+                    .id(report.getDeribitId())
+                    .status(OrderStatus.Live)
+                    .symbol(report.getSymbol())
+                    .side(report.getSide() == DeribitSide.BUY ? Side.BUY : Side.SELL)
+                    .type(report.getType() == DeribitOrderType.LIMIT ? OrderType.LIMIT : OrderType.MARKET)
+                    .price(report.getPrice())
+                    .quantity(report.getQuantity())
+                    .build();
 
-        if (report.getStatus() == DeribitOrderStatus.New) {
-            deribitOrderTracker.create(order);
-        } else if (report.getStatus() == DeribitOrderStatus.PartiallyFilled) {
-            deribitOrderTracker.partiallyFilled(order.getId());
-        } else if (report.getStatus() == DeribitOrderStatus.Filled) {
-            deribitOrderTracker.filled(order.getId(), true);
-        } else if (report.getStatus() == DeribitOrderStatus.Canceled) {
-            deribitOrderTracker.canceled(order.getId());
-        } else if (report.getStatus() == DeribitOrderStatus.Rejected) {
-            log.error("Order rejected: {}, {}", report.getRejectedReason(), report.getText());
+            if (report.getStatus() == DeribitOrderStatus.New) {
+                deribitOrderTracker.create(order);
+            } else if (report.getStatus() == DeribitOrderStatus.PartiallyFilled) {
+                deribitOrderTracker.partiallyFilled(order.getId());
+            } else if (report.getStatus() == DeribitOrderStatus.Filled) {
+                deribitOrderTracker.filled(order.getId(), true);
+            } else if (report.getStatus() == DeribitOrderStatus.Canceled) {
+                deribitOrderTracker.canceled(order.getId());
+            } else if (report.getStatus() == DeribitOrderStatus.Rejected) {
+                log.error("Order rejected: {}, {}", report.getRejectedReason(), report.getText());
+            }
+            log.info("PlacedOrders deribit: {}", deribitOrderTracker.getPlacedOrders());
         }
-        log.info("PlacedOrders deribit: {}", deribitOrderTracker.getPlacedOrders());
+
+
     }
 
 

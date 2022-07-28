@@ -67,6 +67,11 @@ public class DeribitFixClientAdapter implements Application {
         } catch (FieldNotFound e) {
             log.error(e.getMessage());
         }
+        try {
+            messageCracker.crack(message, sessionID);
+        } catch (UnsupportedMessageType | FieldNotFound | IncorrectTagValue e) {
+            log.error(e.getMessage());
+        }
         log.info("Message type to app: {}", msgType);
         log.info("toApp: Message={}, SessionId={}", message, sessionID);
     }
