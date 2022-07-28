@@ -49,7 +49,7 @@ public class DeribitFixMessageCracker extends MessageCracker {
 
     @Override
     public void onMessage(OrderMassStatusRequest message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
-        log.error("OrderMassStatusRequest: {}", message);
+        log.info("OrderMassStatusRequest: {}", message);
     }
 
     @Override
