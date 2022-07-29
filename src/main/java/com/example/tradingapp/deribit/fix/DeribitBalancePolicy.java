@@ -21,7 +21,7 @@ public class DeribitBalancePolicy {
     @Value("${deribit.symbols.enabled}")
     private String symbols;
 
-    @Scheduled(initialDelay = 1000, fixedDelay = Long.MAX_VALUE)
+    @Scheduled(initialDelay = 1000, fixedRate = 4000)
     public void getBalance() throws SessionNotFound {
         String[] symbolsArray = symbols.split(",");
 

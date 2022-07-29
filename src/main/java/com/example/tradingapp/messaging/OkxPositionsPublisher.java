@@ -11,7 +11,7 @@ import javax.annotation.PostConstruct;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class OkxPublishPositions {
+public class OkxPositionsPublisher {
 
     private final JmsTemplate jmsTemplate;
     private final String TOPIC = "positions/okx";

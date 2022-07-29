@@ -109,6 +109,7 @@ public class DeribitFixMessageCracker extends MessageCracker {
     @Override
     public void onMessage(UserResponse message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
         log.info("User response: {}", message);
+        log.error("shite");
         account.updateBalanceDeribit(message);
     }
 
