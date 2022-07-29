@@ -1,7 +1,7 @@
 package com.example.tradingapp.deribit.fix.messaging;
 
 import com.example.tradingapp.NoOrderFoundException;
-import com.example.tradingapp.deribit.fix.DeribitCancelOrderSender;
+import com.example.tradingapp.deribit.fix.sender.DeribitCancelOrderSender;
 import com.example.tradingapp.trading.model.request.OrderRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,7 +30,7 @@ public class DeribitCancelOrderListener {
                 OrderRequest orderRequest = mapper.readValue(textMessage.getText(), OrderRequest.class);
                 log.info("Order request {}", orderRequest);
                 cancelOrderSender.cancel(orderRequest);
-                
+
             } catch (JsonProcessingException e) {
                 log.error("Not valid order request: {}", e.getMessage());
             } catch (NoOrderFoundException e) {

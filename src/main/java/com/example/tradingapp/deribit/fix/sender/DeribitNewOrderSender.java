@@ -1,4 +1,4 @@
-package com.example.tradingapp.deribit.fix;
+package com.example.tradingapp.deribit.fix.sender;
 
 import com.example.tradingapp.trading.model.enums.OrderType;
 import com.example.tradingapp.trading.model.request.OrderRequest;

@@ -28,7 +28,7 @@ class AccountChannelHandlerTest {
     void shouldPutCorrectBalance() throws JsonProcessingException {
         JsonNode jsonNode = mapper.readTree(json);
         accountChannelHandler.handleBalance(jsonNode);
-        var btc = account.getBalance().get("BTC");
+        var btc = account.getBalanceOkx().get("BTC");
 
         assertThat(btc).isEqualTo(BigDecimal.valueOf(11));
     }
