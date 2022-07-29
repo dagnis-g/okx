@@ -1,11 +1,11 @@
 package com.example.tradingapp;
 
 import com.example.tradingapp.secrets.OkxSecrets;
-import com.example.tradingapp.trading.decoder.OkxOrderResponseDecoder;
-import com.example.tradingapp.trading.encoder.OkxOrderRequestEncoder;
-import com.example.tradingapp.trading.model.enums.OrderType;
-import com.example.tradingapp.trading.model.enums.Side;
-import com.example.tradingapp.trading.model.request.OrderRequest;
+import com.example.tradingapp.okx.trading.decoder.OkxOrderResponseDecoder;
+import com.example.tradingapp.okx.trading.encoder.OkxOrderRequestEncoder;
+import com.example.tradingapp.okx.trading.model.enums.OrderType;
+import com.example.tradingapp.okx.trading.model.enums.Side;
+import com.example.tradingapp.okx.trading.model.request.OrderRequest;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.util.EntityUtils;

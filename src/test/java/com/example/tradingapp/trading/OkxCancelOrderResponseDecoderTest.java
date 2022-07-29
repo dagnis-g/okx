@@ -1,6 +1,6 @@
 package com.example.tradingapp.trading;
 
-import com.example.tradingapp.trading.decoder.OkxCancelOrderResponseDecoder;
+import com.example.tradingapp.okx.trading.decoder.OkxCancelOrderResponseDecoder;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpResponseFactory;
 import org.apache.http.HttpStatus;
@@ -63,7 +63,7 @@ public class OkxCancelOrderResponseDecoderTest {
                 "        }" +
                 "    ]" +
                 "}";
-        
+
         HttpResponseFactory factory = new DefaultHttpResponseFactory();
         HttpResponse response = factory.newHttpResponse(
                 new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, null), null);

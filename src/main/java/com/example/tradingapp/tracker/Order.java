@@ -1,7 +1,7 @@
 package com.example.tradingapp.tracker;
 
-import com.example.tradingapp.trading.model.enums.OrderType;
-import com.example.tradingapp.trading.model.enums.Side;
+import com.example.tradingapp.okx.trading.model.enums.OrderType;
+import com.example.tradingapp.okx.trading.model.enums.Side;
 import lombok.Builder;
 import lombok.Data;
 

@@ -35,7 +35,7 @@ public class DeribitBalancePolicy {
             message.setString(15, symbol);
 
             log.info("sending UserRequest: {}", message);
-            sendToTarget(message, "28work", "DERIBITSERVER");
+            sendToTarget(message, DeribitSecrets.SENDER_COMP_ID, DeribitSecrets.TARGET_COMP_ID);
         }
     }
 }

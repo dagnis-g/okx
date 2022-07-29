@@ -6,6 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum DeribitOrderType {
+    
     MARKET('1'),
     LIMIT('2');
 

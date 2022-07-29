@@ -1,7 +1,8 @@
 package com.example.tradingapp.deribit.fix.sender;
 
-import com.example.tradingapp.trading.model.enums.OrderType;
-import com.example.tradingapp.trading.model.request.OrderRequest;
+import com.example.tradingapp.okx.trading.model.enums.OrderType;
+import com.example.tradingapp.okx.trading.model.request.OrderRequest;
+import com.example.tradingapp.secrets.DeribitSecrets;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import quickfix.Message;
@@ -27,7 +28,7 @@ public class DeribitNewOrderSender {
         message.setString(44, String.valueOf(orderRequest.getPrice()));
         message.setString(55, orderRequest.getSymbol());
 
-        sendToTarget(message, "28work", "DERIBITSERVER");
+        sendToTarget(message, DeribitSecrets.SENDER_COMP_ID, DeribitSecrets.TARGET_COMP_ID);
 
         log.info("Sending order message {}", message);
     }
