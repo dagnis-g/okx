@@ -27,7 +27,7 @@ class OkxPositionHandlerTest {
         JsonNode jsonNode = mapper.readTree(json);
         positionHandler.handlePositions(jsonNode);
 
-        var positionFromPostions = positions.getPositions().get("307173036051017730");
+        var positionFromPostions = positions.getPositionsOkx().get("307173036051017730");
         System.out.println(positionFromPostions);
 
         assertThat(positionFromPostions.getCurrency()).isEqualTo("ETH");

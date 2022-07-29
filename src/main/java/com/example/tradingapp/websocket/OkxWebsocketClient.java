@@ -16,10 +16,10 @@ import java.net.URI;
 public class OkxWebsocketClient {
 
     private final OkxWebsocketHandler okxWebsocketHandler;
-    @Value("${okx.websocker.url}")
+    @Value("${okx.websocket.url}")
     private String URL;
 
-    public void startWebSocketConnection() {
+    public void connectOkx() {
         WebSocketClient client = new StandardWebSocketClient();
 
         WebSocketHttpHeaders headers = new WebSocketHttpHeaders();

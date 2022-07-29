@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ConnectWebsocketPolicy {
+public class ConnectWebsocketPolicyOkx {
 
     private final OkxWebsocketClient webSocketClient;
 
     @Scheduled(initialDelay = 2000, fixedDelay = Long.MAX_VALUE)
     public void connectToWebSocket() {
         log.info("Starting websocket connection");
-        webSocketClient.startWebSocketConnection();
+        webSocketClient.connectOkx();
     }
 }

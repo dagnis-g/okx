@@ -23,9 +23,9 @@ public class OkxPositionHandler {
 
         if (positionResponse.getData().size() > 0) {
             var positionData = positionResponse.getData().get(0);
-            positions.updatePositionsFromOkx(positionData);
+            positions.updatePositionsOkx(positionData);
 
-            log.info("Current Future positions from Websocket {}", positions.getPositions());
+            log.info("Current Future positions from Websocket {}", positions.getPositionsOkx());
         } else {
             log.info("No active Future positions");
         }

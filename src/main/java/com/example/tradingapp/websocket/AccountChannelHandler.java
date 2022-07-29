@@ -22,9 +22,9 @@ public class AccountChannelHandler {
     public void handleBalance(JsonNode jsonNode) throws JsonProcessingException {
         var balanceResponse = mapper.treeToValue(jsonNode, OkxBalanceResponse.class);
         var details = balanceResponse.getData().get(0).getDetails().get(0);
-        account.updateAccountFromOkx(details);
+        account.updateBalanceOkx(details);
 
-        log.info("Current account balance from WebSocket {}", account.getBalance());
+        log.info("Current account balance from WebSocket {}", account.getBalanceOkx());
     }
 
 }

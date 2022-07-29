@@ -1,6 +1,6 @@
 package com.example.tradingapp.deribit.fix.messaging;
 
-import com.example.tradingapp.deribit.fix.DeribitNewOrderSender;
+import com.example.tradingapp.deribit.fix.sender.DeribitNewOrderSender;
 import com.example.tradingapp.trading.model.request.OrderRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

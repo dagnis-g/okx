@@ -1,5 +1,6 @@
 package com.example.tradingapp.deribit.fix;
 
+import com.example.tradingapp.account.Account;
 import com.example.tradingapp.deribit.fix.model.DeribitOrderStatus;
 import com.example.tradingapp.deribit.fix.model.DeribitOrderType;
 import com.example.tradingapp.deribit.fix.model.DeribitSide;
@@ -31,6 +32,7 @@ public class DeribitFixMessageCracker extends MessageCracker {
 
     private final DeribitExecutionReportDecoder executionReportDecoder;
     private final DeribitOrderTracker deribitOrderTracker;
+    private final Account account;
 
     @Override
     public void onMessage(OrderCancelRequest message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
@@ -99,6 +101,16 @@ public class DeribitFixMessageCracker extends MessageCracker {
 
     }
 
+    @Override
+    public void onMessage(UserRequest message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
+        log.info("User request: {}", message);
+    }
+
+    @Override
+    public void onMessage(UserResponse message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
+        log.info("User response: {}", message);
+        account.updateBalanceDeribit(message);
+    }
 
     @Override
     public void onMessage(Logon message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {

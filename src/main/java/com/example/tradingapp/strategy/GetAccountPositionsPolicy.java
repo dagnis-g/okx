@@ -32,10 +32,10 @@ public class GetAccountPositionsPolicy {
 
         if (positionsResponse.getCode().equals("0")) {
             for (var data : positionsResponse.getData()) {
-                positions.updatePositionsFromOkx(data);
+                positions.updatePositionsOkx(data);
             }
         }
-        log.info("Current open future positions {}", positions.getPositions());
+        log.info("Current open future positions {}", positions.getPositionsOkx());
     }
 
 }
