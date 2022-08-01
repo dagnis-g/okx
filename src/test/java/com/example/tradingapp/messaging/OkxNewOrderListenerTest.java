@@ -1,5 +1,6 @@
 package com.example.tradingapp.messaging;
 
+import com.example.tradingapp.okx.messaging.OkxNewOrderListener;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,14 +42,15 @@ class OkxNewOrderListenerTest {
         msg.setText(jsonInvalid);
         orderListener.handle(msg);
 
-        assertThat(output.getOut()).contains("Not valid OrderRequest com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `com.example.tradingapp.trading.model.enums.Side` from String \"bu\": not one of the values accepted for Enum class: [sell, buy]\n" +
-                " at [Source: (String)\"{\n" +
-                "  \"symbol\": \"BTC-USDT\",\n" +
-                "  \"side\": \"bu\",\n" +
-                "  \"type\": \"limit\",\n" +
-                "  \"price\": 2,\n" +
-                "  \"quantity\": 0.01\n" +
-                "}\"; line: 3, column: 11] (through reference chain: com.example.tradingapp.trading.model.request.OrderRequest[\"side\"])");
+        assertThat(output.getOut()).contains("""
+                from String "bu": not one of the values accepted for Enum class: [zero, sell, buy]
+                 at [Source: (String)"{
+                  "symbol": "BTC-USDT",
+                  "side": "bu",
+                  "type": "limit",
+                  "price": 2,
+                  "quantity": 0.01
+                }"; line: 3, column: 11] (through reference chain""");
     }
 
     String json = """

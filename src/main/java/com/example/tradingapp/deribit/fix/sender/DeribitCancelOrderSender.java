@@ -1,8 +1,9 @@
 package com.example.tradingapp.deribit.fix.sender;
 
-import com.example.tradingapp.NoOrderFoundException;
 import com.example.tradingapp.deribit.fix.DeribitOrderTracker;
-import com.example.tradingapp.trading.model.request.OrderRequest;
+import com.example.tradingapp.exceptions.NoOrderFoundException;
+import com.example.tradingapp.okx.trading.model.request.OrderRequest;
+import com.example.tradingapp.secrets.DeribitSecrets;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class DeribitCancelOrderSender {
         var message = new OrderCancelRequest();
         message.setString(41, order.getId());
 
-        sendToTarget(message, "28work", "DERIBITSERVER");
+        sendToTarget(message, DeribitSecrets.SENDER_COMP_ID, DeribitSecrets.TARGET_COMP_ID);
     }
 
 }

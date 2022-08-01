@@ -25,8 +25,8 @@ class PositionsTest {
 
         assertThat(position.getPositionId()).isEqualTo("ABC-PERPETUAL");
         assertThat(position.getCurrency()).isEqualTo("ABC");
-        assertThat(position.getInstrumentType()).isEqualTo("future");
-        assertThat(position.getPositionSide()).isEqualTo("sell");
+        assertThat(position.getInstrumentType()).isEqualTo("FUTURE");
+        assertThat(position.getPositionSide()).isEqualTo("SELL");
     }
 
     String json = """

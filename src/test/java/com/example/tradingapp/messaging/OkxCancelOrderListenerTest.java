@@ -1,5 +1,6 @@
 package com.example.tradingapp.messaging;
 
+import com.example.tradingapp.okx.messaging.OkxCancelOrderListener;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,13 @@ class OkxCancelOrderListenerTest {
         msg.setText(jsonIncorrect);
         cancelOrderListener.handle(msg);
 
-        assertThat(output.getOut()).contains("Not valid OrderRequest com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `com.example.tradingapp.trading.model.enums.OrderType` from String \"lim\"");
+        assertThat(output.getOut()).contains("Not valid OrderRequest com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `com.example.tradingapp.okx.trading.model.enums.OrderType` from String \"lim\": not one of the values accepted for Enum class: [limit, market]\n" +
+                " at [Source: (String)\"{\n" +
+                "  \"symbol\": \"BTC-USDT\",\n" +
+                "  \"side\": \"buy\",\n" +
+                "  \"type\": \"lim\",\n" +
+                "  \"price\": 2,\n" +
+                "  \"quantity\": 0.01");
     }
 
     @Test

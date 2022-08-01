@@ -14,6 +14,5 @@ public class OkxPositionsResponseData {
     private String instrumentType;
     @JsonProperty("posSide")
     private String positionSide;
-
-
+    
 }

@@ -1,6 +1,6 @@
 package com.example.tradingapp.account;
 
-import com.example.tradingapp.trading.encoder.OkxUriAndHeaderEncoder;
+import com.example.tradingapp.okx.trading.encoder.OkxUriAndHeaderEncoder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.HttpRequestBase;

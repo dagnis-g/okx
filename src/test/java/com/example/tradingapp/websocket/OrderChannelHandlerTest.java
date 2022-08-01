@@ -1,11 +1,12 @@
 package com.example.tradingapp.websocket;
 
+import com.example.tradingapp.okx.trading.OkxOrderTracker;
+import com.example.tradingapp.okx.trading.model.enums.OrderType;
+import com.example.tradingapp.okx.trading.model.enums.Side;
+import com.example.tradingapp.okx.websocket.OrderChannelHandler;
 import com.example.tradingapp.scheduled.ScheduledStrategyExecutor;
 import com.example.tradingapp.tracker.Order;
 import com.example.tradingapp.tracker.OrderStatus;
-import com.example.tradingapp.trading.OkxOrderTracker;
-import com.example.tradingapp.trading.model.enums.OrderType;
-import com.example.tradingapp.trading.model.enums.Side;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -150,7 +151,7 @@ class OrderChannelHandlerTest {
         orderTracker.getPlacedOrders().put(orderToInsert2.getId(), orderToInsert2);
         orderTracker.getPlacedOrders().put(orderToInsert3.getId(), orderToInsert3);
 
-        strategyExecutor.removeTerminalOrders();
+        strategyExecutor.removeTerminalOrdersOkx();
 
         orderTracker.getPlacedOrders()
                 .forEach((key, value) -> assertThat(value.getStatus().isTerminal()).isEqualTo(false));

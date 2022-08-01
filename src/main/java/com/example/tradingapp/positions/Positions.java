@@ -2,7 +2,7 @@ package com.example.tradingapp.positions;
 
 import com.example.tradingapp.deribit.fix.messaging.DeribitPositionsPublisher;
 import com.example.tradingapp.deribit.websocket.model.response.DeribitResponse;
-import com.example.tradingapp.messaging.OkxPositionsPublisher;
+import com.example.tradingapp.okx.messaging.OkxPositionsPublisher;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -34,6 +34,7 @@ public class Positions {
                 .instrumentType(data.getInstrumentType())
                 .positionSide(data.getPositionSide())
                 .build();
+        var pos = data.getPositionSide();
         positionsOkx.put(data.getPositionId(), position);
 
         try {
@@ -52,8 +53,8 @@ public class Positions {
             var position = Position.builder()
                     .positionId(result.getCurrencyName())
                     .currency(currency)
-                    .instrumentType(result.getInstrumentType())
-                    .positionSide(result.getDirection())
+                    .instrumentType(result.getInstrumentType().toString())
+                    .positionSide(result.getDirection().toString())
                     .build();
 
             getPositionsDeribit().put(position.getPositionId(), position);

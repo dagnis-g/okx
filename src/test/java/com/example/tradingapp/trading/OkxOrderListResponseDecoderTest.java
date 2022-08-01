@@ -1,9 +1,9 @@
 package com.example.tradingapp.trading;
 
-import com.example.tradingapp.trading.decoder.OkxOrderListResponseDecoder;
-import com.example.tradingapp.trading.model.enums.OkxOrderStatus;
-import com.example.tradingapp.trading.model.enums.OrderType;
-import com.example.tradingapp.trading.model.enums.Side;
+import com.example.tradingapp.okx.trading.decoder.OkxOrderListResponseDecoder;
+import com.example.tradingapp.okx.trading.model.enums.OkxOrderStatus;
+import com.example.tradingapp.okx.trading.model.enums.OrderType;
+import com.example.tradingapp.okx.trading.model.enums.Side;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpResponseFactory;
 import org.apache.http.HttpStatus;

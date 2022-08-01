@@ -2,7 +2,7 @@ package com.example.tradingapp.account;
 
 import com.example.tradingapp.account.model.OkxBalanceResponseDataDetails;
 import com.example.tradingapp.deribit.fix.messaging.DeribitAccountBalancePublisher;
-import com.example.tradingapp.messaging.OkxAccountBalancePublisher;
+import com.example.tradingapp.okx.messaging.OkxAccountBalancePublisher;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

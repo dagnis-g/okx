@@ -1,11 +1,12 @@
 package com.example.tradingapp.trading;
 
-import com.example.tradingapp.NoOrderFoundException;
+import com.example.tradingapp.exceptions.NoOrderFoundException;
+import com.example.tradingapp.okx.trading.OkxOrderTracker;
 import com.example.tradingapp.tracker.Order;
 import com.example.tradingapp.tracker.OrderStatus;
-import com.example.tradingapp.trading.model.enums.OrderType;
-import com.example.tradingapp.trading.model.enums.Side;
-import com.example.tradingapp.trading.model.request.OrderRequest;
+import com.example.tradingapp.okx.trading.model.enums.OrderType;
+import com.example.tradingapp.okx.trading.model.enums.Side;
+import com.example.tradingapp.okx.trading.model.request.OrderRequest;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,7 +35,7 @@ class OkxOrderTrackerTest {
                 .build();
         orderTracker.getPlacedOrders().put(order.getId(), order);
         var orderFound = orderTracker.findOrderByOrderRequest(orderRequest);
-        
+
         assertThat(orderFound.getId()).isEqualTo(order.getId());
         assertThat(orderFound.getStatus()).isEqualTo(order.getStatus());
         assertThat(orderFound.getSide()).isEqualTo(order.getSide());

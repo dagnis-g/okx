@@ -1,5 +1,6 @@
 package com.example.tradingapp.deribit.fix;
 
+import com.example.tradingapp.secrets.DeribitSecrets;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,7 +24,7 @@ public class DeribitOpenOrderPolicy {
         UUID uuid = UUID.randomUUID();
         var message = new OrderMassStatusRequest(new MassStatusReqID(uuid.toString()), new MassStatusReqType(7));
         log.info("Order Mass Status Request(AF)");
-        sendToTarget(message, "28work", "DERIBITSERVER");
+        sendToTarget(message, DeribitSecrets.SENDER_COMP_ID, DeribitSecrets.TARGET_COMP_ID);
         log.info("Sending OrderMassStatusRequest {}", message);
     }
 

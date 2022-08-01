@@ -33,14 +33,9 @@ public class DeribitFixClientAdapter implements Application {
     @Override
     public void toAdmin(Message message, SessionID sessionID) {
         log.info("to admin: message {}, sessionId {}", message, sessionID);
-        String msgType = null;
         try {
-            msgType = message.getHeader().getString(MsgType.FIELD);
-        } catch (FieldNotFound e) {
-            throw new RuntimeException(e);
-        }
-        log.info("Message type to admin: {}", msgType);
-        try {
+            String msgType = message.getHeader().getString(MsgType.FIELD);
+            log.info("Message type to admin: {}", msgType);
             messageCracker.crack(message, sessionID);
         } catch (UnsupportedMessageType | FieldNotFound | IncorrectTagValue e) {
             log.error("To admin: {}", e.getMessage());
@@ -49,41 +44,36 @@ public class DeribitFixClientAdapter implements Application {
 
     @Override
     public void fromAdmin(Message message, SessionID sessionID) throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, RejectLogon {
-        var msgType = message.getHeader().getString(MsgType.FIELD);
-        log.info("Message type from admin: {}", msgType);
         log.info("fromAdmin: Message={}, SessionId={}", message, sessionID);
         try {
+            var msgType = message.getHeader().getString(MsgType.FIELD);
+            log.info("Message type from admin: {}", msgType);
             messageCracker.crack(message, sessionID);
-        } catch (UnsupportedMessageType e) {
+        } catch (UnsupportedMessageType | FieldNotFound | IncorrectTagValue e) {
             log.error("From admin: {}", e.getMessage());
         }
     }
 
     @Override
     public void toApp(Message message, SessionID sessionID) throws DoNotSend {
-        String msgType = null;
+        log.info("toApp: Message={}, SessionId={}", message, sessionID);
         try {
-            msgType = message.getHeader().getString(MsgType.FIELD);
-        } catch (FieldNotFound e) {
-            log.error(e.getMessage());
-        }
-        try {
+            String msgType = message.getHeader().getString(MsgType.FIELD);
+            log.info("Message type to app: {}", msgType);
             messageCracker.crack(message, sessionID);
         } catch (UnsupportedMessageType | FieldNotFound | IncorrectTagValue e) {
-            log.error("To app: {}", e.toString());
+            log.error("To app: {}", e.getMessage());
         }
-        log.info("Message type to app: {}", msgType);
-        log.info("toApp: Message={}, SessionId={}", message, sessionID);
     }
 
     @Override
     public void fromApp(Message message, SessionID sessionID) throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, UnsupportedMessageType {
-        var msgType = message.getHeader().getString(MsgType.FIELD);
-        log.info("Message type from app: {}", msgType);
         log.info("fromApp: Message={}, SessionId={}", message, sessionID);
         try {
+            var msgType = message.getHeader().getString(MsgType.FIELD);
+            log.info("Message type from app: {}", msgType);
             messageCracker.crack(message, sessionID);
-        } catch (UnsupportedMessageType e) {
+        } catch (UnsupportedMessageType | FieldNotFound | IncorrectTagValue e) {
             log.error("From app: {}", e.getMessage());
         }
     }

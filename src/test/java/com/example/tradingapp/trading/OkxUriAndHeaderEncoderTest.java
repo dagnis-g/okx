@@ -1,7 +1,7 @@
 package com.example.tradingapp.trading;
 
 import com.example.tradingapp.secrets.OkxSecrets;
-import com.example.tradingapp.trading.encoder.OkxUriAndHeaderEncoder;
+import com.example.tradingapp.okx.trading.encoder.OkxUriAndHeaderEncoder;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.junit.jupiter.api.Assertions;

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 
@@ -22,9 +21,8 @@ public class DeribitPositionPolicy {
 
     @Value("${deribit.symbols.enabled}")
     private String symbols;
-
-    @Scheduled(initialDelay = 3000, fixedRate = 5000)
-    private void getPositions() throws IOException {
+    
+    public void getPositions() throws IOException {
         if (loginStateWS.isLoggedIn()) {
             var symbolsArray = symbols.split(",");
             for (String symbol : symbolsArray) {

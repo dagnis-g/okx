@@ -1,9 +1,9 @@
 package com.example.tradingapp.deribit.fix;
 
 import com.example.tradingapp.tracker.OrderStatus;
-import com.example.tradingapp.trading.OkxOrderTracker;
-import com.example.tradingapp.trading.model.enums.OrderType;
-import com.example.tradingapp.trading.model.enums.Side;
+import com.example.tradingapp.okx.trading.OkxOrderTracker;
+import com.example.tradingapp.okx.trading.model.enums.OrderType;
+import com.example.tradingapp.okx.trading.model.enums.Side;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -54,7 +54,7 @@ class DeribitOrderTrackerTest {
         var deribitOrder = deribitOrderTracker.getPlacedOrders().get("132");
 
         var okxOrder = okxOrderTracker.getPlacedOrders().get("132");
-        
+
         assertThat(deribitOrders).isNotEqualTo(okxOrders);
 
         assertThat(deribitOrder.getId()).isEqualTo("132");
